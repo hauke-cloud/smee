@@ -1,0 +1,212 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+SCRIPT_DIR="$(
+  cd "$(dirname "$0")"
+  pwd -P
+)"
+
+function echoInfo() {
+  echo "INFO: ${1}" 1>&2
+  exit 1
+}
+
+function echoError() {
+  echo "ERROR: ${1}" 1>&2
+  exit 1
+}
+
+function errorUsage() {
+  echo "${1}" 1>&2
+  usage
+  exit 1
+}
+
+# check prerequisites
+for cmd in podman; do
+  command -v ${cmd} >/dev/null || {
+    echo >&2 "${cmd} must be installed - exiting..."
+    exit 1
+  }
+done
+
+# Arguments
+DEFAULT_CONFIG_FILE="/etc/smee/smee.config"
+DEFAULT_SMEE_FILE="${PWD}/.smee"
+
+# Sub commands
+DEFAULT_INIT=0
+DEFAULT_RUN=1
+
+function usage() {
+  echo "Smee is a humble servant which provides working environments within containers."
+  echo "usage: $0 [options] <command>"
+  echo "sub-commands:"
+  echo ""
+  echo "        init                          Create a smee fileomma with initial configuration settings (optional)"
+  echo "        run                           Runs a container based on the configuration defined in the smee file (default)"
+  echo ""
+  echo "arguments:"
+  echo ""
+  echo "        -s --smee-file                Path to configuration file configuring tool and environment (DEFAULT: ${DEFAULT_SMEE_FILE}) [ENV: SMEE_FILE]."
+  echo "        -c --config-file              Path to configuration file used for general smee configuration (DEFAULT: ${DEFAULT_CONFIG_FILE}) [ENV: CONFIG_FILE]."
+  echo "        -h --help:                    Shows this usage text."
+  echo ""
+  echo "environment variables:"
+  echo ""
+  echo "        SMEE_FILE:                    Path to configuration file configuring tool and environment (DEFAULT: ${DEFAULT_SMEE_FILE})."
+  echo "        CONFIG_FILE:                  Path to configuration file used for general smee configuration (DEFAULT: ${DEFAULT_CONFIG_FILE})."
+}
+
+while [[ $# -gt 0 ]]; do
+  key="${1}"
+
+  case $key in
+  --smee-file | -s)
+    shift
+    export SMEE_FILE="${1}"
+    shift
+    ;;
+  --config-file | -c)
+    shift
+    export CONFIG_FILE="${1}"
+    shift
+    ;;
+  --help | -h | help)
+    usage
+    exit 0
+    ;;
+  init)
+    shift
+    INIT=1
+    ;;
+  run)
+    shift
+    RUN=1
+    ;;
+  *)
+    shift
+    ;;
+  esac
+done
+
+# Assign default values if optional argument is empty
+for variable in SMEE_FILE CONFIG_FILE INIT RUN; do
+  if [[ -z ${!variable} || ${!variable} == '<no value>' ]]; then
+    default_var_name="DEFAULT_${variable}"
+    export "${variable}=${!default_var_name}"
+  fi
+done
+#
+# # Abort if required argument is empty
+# for variable in PAT_TOKEN ORGANISATION FROM TO; do
+#   if [[ -z ${!variable} || ${!variable} == '<no value>' ]]; then
+#     errorUsage "${variable}"
+#   fi
+# done
+
+# set up default values
+SMEE_DOCKER_IMAGE=busybox  # select docker image
+SMEE_DOCKER_COMMAND=sh     # run this command inside the docker conainer
+SMEE_DOCKER_PULL=0         # force pulling the image before starting the container (0/1)
+SMEE_DOCKER_RM=1           # remove container on exit (0/1)
+SMEE_DOCKER_TTY=1          # open an interactive tty (0/1)
+SMEE_DOCKER_USER=$(id -u)  # run commands inside the container with this user
+SMEE_DOCKER_GROUP=$(id -g) # run commands inside the container with this group
+SMEE_DOCKER_ARGS=''        # default arguments to docker run
+SMEE_PORTS=''              # space separated list of ports to expose
+SMEE_MOUNT_PASSWD=0        # mount /etc/passwd inside the container (0/1)
+SMEE_MOUNT_GROUP=0         # mount /etc/group inside the container (0/1)
+SMEE_MOUNTS_RO=''          # space separated list of volumes to mount read only
+SMEE_MOUNTS_RW=''          # space separated list of volumes to mount read write
+SMEE_WORKDIR=${PWD}        # use this workdir inside the container
+SMEE_WORKDIR_MODE=rw       # mount the workdir with this mode (ro/rw)
+SMEE_ENV=''                # space separated list of environment variables set inside the container
+
+function init() {
+  echo '# This is igors config' >.igor.sh
+  echo '# Original project: https://github.com/felixb/igor' >>.igor.sh
+  echo '# Install / update:' >>.igor.sh
+  echo '#   sudo curl https://raw.githubusercontent.com/felixb/igor/master/igor.sh -o /usr/local/bin/igor' >>.igor.sh
+  echo '#   sudo chmod +x /usr/local/bin/igor' >>.igor.sh
+  echo '' >>.igor.sh
+  grep '^IGOR_' $0 >>.igor.sh
+  echo 'default igor config saved to .igor.sh'
+  exit 0
+}
+
+# ugly command line parsing
+while [[ $# -gt 0 ]]; do
+  if [ "${1}" == '-v' ] || [[ "${1}" == '--verbose' ]]; then
+    shift
+    set -x
+  elif [[ "${1}" == '-c' ]] || [[ "${1}" == '--config' ]]; then
+    if [ -z "${2}" ] || ! [ -e "${2}" ]; then
+      usage
+    fi
+    igor_config="${2}"
+    shift
+    shift
+  elif [[ "${1}" == '-i' ]] || [[ "${1}" == '--init' ]]; then
+    init
+  elif [[ "${1}" == '-h' ]] || [[ "${1}" == '--help' ]]; then
+    usage
+  elif [[ "${1}" == '--' ]]; then
+    shift
+    break
+  else
+    break
+  fi
+done
+
+# load config from home
+if [ -e "${HOME}/.igor.sh" ]; then
+  . "${HOME}/.igor.sh"
+fi
+
+# load config from current working dir
+if [ -e "${igor_config}" ]; then
+  . "${igor_config}"
+fi
+
+# assamble command line
+if [ ${IGOR_DOCKER_PULL} -gt 0 ]; then
+  docker pull "${IGOR_DOCKER_IMAGE}"
+fi
+
+args=''
+if [ ${IGOR_DOCKER_RM} -gt 0 ]; then
+  args="${args} --rm"
+fi
+if [ ${IGOR_DOCKER_TTY} -gt 0 ]; then
+  args="${args} -ti"
+fi
+for p in ${IGOR_PORTS}; do
+  args="${args} -p ${p}:${p}"
+done
+if [ ${IGOR_MOUNT_PASSWD} -gt 0 ]; then
+  args="${args} -v /etc/passwd:/etc/passwd:ro"
+fi
+if [ ${IGOR_MOUNT_GROUP} -gt 0 ]; then
+  args="${args} -v /etc/group:/etc/group:ro"
+fi
+for v in ${IGOR_MOUNTS_RO}; do
+  args="${args} -v ${v}:${v}:ro"
+done
+for v in ${IGOR_MOUNTS_RW}; do
+  args="${args} -v ${v}:${v}:rw"
+done
+for e in ${IGOR_ENV}; do
+  args="${args} -e ${e}=${!e}"
+done
+
+# execute!
+exec docker run \
+  ${args} \
+  -u "${IGOR_DOCKER_USER}:${IGOR_DOCKER_GROUP}" \
+  -v "${PWD}:${IGOR_WORKDIR}:${IGOR_WORKDIR_MODE}" \
+  -w "${IGOR_WORKDIR}" \
+  ${IGOR_DOCKER_ARGS} \
+  "${IGOR_DOCKER_IMAGE}" \
+  ${IGOR_DOCKER_COMMAND} \
+  "${@}"
