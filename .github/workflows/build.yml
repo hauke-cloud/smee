@@ -6,6 +6,41 @@ on:
       - main
 
 jobs:
+  build-deb:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - name: Build Debian package
+        uses: dawidd6/action-debian-package@v1
+        with:
+          source_directory: src
+
+      - uses: jrandiny/apt-repo-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          arch: |
+            amd64
+            i386
+          version: |
+            bionic
+            trusty
+          file: my_program_bionic.deb
+          file_target_version: bionic
+          public_key: ${{ secrets.GPG_PUBLIC_KEY }}
+          private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: apt-repo/
+          destination_dir: apt
+
   build-rpm:
     runs-on: ubuntu-latest
 
@@ -22,8 +57,8 @@ jobs:
 
       - name: Import GPG private key
         run: |
-          echo "${{ secrets.RPM_GPG_PRIVATE_KEY }}" | gpg --import
-          echo "${{ secrets.RPM_GPG_PUBLIC_KEY }}" | gpg --import
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import
+          echo "${{ secrets.GPG_PUBLIC_KEY }}" | gpg --import
 
       - name: Configure RPM macros for GPG signing
         run: |
