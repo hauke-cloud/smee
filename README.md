@@ -5,7 +5,7 @@
 <a href="https://github.com/hauke-cloud/readme-management" target="_blank"><img src="https://img.shields.io/badge/template-default-orange" alt="Repository type - default" style="display: block;" /></a>
 
 
-# Every containership needs a Smee
+# Every container ship needs a Smee
 
 
 <img src="https://raw.githubusercontent.com/hauke-cloud/.github/main/resources/img/organisation-logo-small.png" alt="hauke.cloud logo" width="109" height="123" align="right">
@@ -16,7 +16,7 @@ Smee provides easy to spin up working environments by using open container techn
 What you can do with it:
 - Describe your tooling / working environment in Dockerfiles
 - Desscribe your mounts, static variables, etc via Smee config file
-- Spin up a fresh working environment via simple execute ```smee``
+- Spin up a fresh working environment via simple execute ```smee```
 
 
 
