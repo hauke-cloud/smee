@@ -1,0 +1,122 @@
+name: Build and deploy RPM package/repository
+description: Builds the latest RPM package and deploys it within a repository to github pages
+inputs:
+  package-name:
+    description: Name of the package
+    required: true
+  source-directory:
+    description: Relative path to directory containing the future package content
+  spec-directory:
+    description: Relative path to directory containing the spec files
+  gpg-name:
+    description: Internal name used to identity GPG key
+  gpg-private-key:
+    description: Private GPG key used to sign package / repository
+    required: true
+  gpg-public-key:
+    description: Public GPG key used to sign package / repository
+    required: true
+  token:
+    description: Token used to authenticate against Github API for deploying github pages
+    required: true
+  repository-sub-directory:
+    description: In which sub directory of the github pages branch should the repository be deployed to
+runs:
+  using: composite
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-tags: true
+
+    - name: Install RPM build tools
+      shell: bash
+      run: |
+        sudo apt-get update \
+        && sudo apt-get install -y rpm gnupg createrepo-c
+
+    - name: Import GPG private key
+      shell: bash
+      run: |
+        echo "${{ inputs.gpg-private-key }}" | gpg --import
+        echo "${{ inputs.gpg-public-key }}" | gpg --import
+
+    - name: Configure RPM macros for GPG signing
+      shell: bash
+      run: |
+        echo "%_signature gpg" >> ~/.rpmmacros
+        echo "%_gpg_name {{ inputs.gpg-name || 'hauke.cloud' }}" >> ~/.rpmmacros
+        echo "%_gpg_path ~/.gnupg" >> ~/.rpmmacros
+        echo "%__gpg /usr/bin/gpg" >> ~/.rpmmacros
+
+    - name: Export GPG public key
+      shell: bash
+      run: |
+        gpg --export --armor > RPM-GPG-KEY
+
+    - name: Build RPM package
+      shell: bash
+      id: rpm
+      run: |
+        # Get PACKAGE_VERSION
+        PACKAGE_VERSION=$(cat *.spec | grep -Eo '^Version:.+' | rev | cut -d' ' -f1 | rev)
+
+        echo "Create RPM directories"
+        mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+
+        echo "Copy source files"
+        mkdir ~/rpmbuild/SOURCES/{{ inputs.package-name }}-${PACKAGE_VERSION}
+        cp {{ inputs.source-directory || "src" }}/* ~/rpmbuild/SOURCES/{{ inputs.package-name }}-${PACKAGE_VERSION}/
+
+        echo "Copy spec file"
+        cp {{ inputs.spec-directory || "src/package/rpm" }}/*.spec ~/rpmbuild/SPECS/
+
+        echo "Creates source archive"
+        cd ~/rpmbuild/SOURCES/ \
+        && tar -czvf ~/rpmbuild/SOURCES/{{ inputs.package-name }}-${PACKAGE_VERSION}.tar.gz * \
+        && cd ~
+
+        echo "Build RPM package"
+        rpmbuild -ba ~/rpmbuild/SPECS/*.spec
+
+    - name: Checkout gh-pages branch
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: gh-pages
+
+    - name: Create repository metadata
+      shell: bash
+      run: |
+        echo "Create repository directory"
+        mkdir -p ./rpm-repo/x86_64
+
+        echo "Copy RPM-GPG-KEY file to repository directory"
+        cp RPM-GPG-KEY ./rpm-repo/
+
+        echo "Copy new rpm to repository directory"
+        ls -la ~/rpmbuild/RPMS/x86_64/*
+        cp ~/rpmbuild/RPMS/x86_64/*.rpm ./rpm-repo/x86_64/
+
+        echo "Copy old rpms to repository directory"
+        if [[ -d gh-pages/x86_64 ]]; then
+          cp -r gh-pages/rpm/x86_64/* ./rpm-repo/x86_64/
+        fi
+
+        echo "Sign rpms"
+        for rpm in ./rpm-repo/x86_64/*.rpm; do
+          sudo -E rpm --addsign ${rpm}
+        done
+
+        echo "Create repository metadata"
+        createrepo_c ./rpm-repo
+
+        echo "Sign repository metadata"
+        gpg --detach-sign --armor ./rpm-repo/repodata/repomd.xml
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ inputs.token }}
+        publish_dir: rpm-repo/
+        destination_dir: { { inputs.repository-sub-directory || "rpm" } }
