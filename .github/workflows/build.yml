@@ -20,7 +20,7 @@ jobs:
         with:
           source_directory: src
 
-      - uses: jrandiny/apt-repo-action@v2
+      - uses: jrandiny/apt-repo-action@v2.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           arch: |
