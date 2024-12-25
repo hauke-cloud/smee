@@ -66,10 +66,10 @@ runs:
 
         echo "Copy source files"
         mkdir ~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}
-        cp ${{ inputs.source-directory || "src" }}/* ~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}/
+        cp ${{ inputs.source-directory || 'src' }}/* ~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}/
 
         echo "Copy spec file"
-        cp ${{ inputs.spec-directory || "src/package/rpm" }}/*.spec ~/rpmbuild/SPECS/
+        cp ${{ inputs.spec-directory || 'src/package/rpm' }}/*.spec ~/rpmbuild/SPECS/
 
         echo "Creates source archive"
         cd ~/rpmbuild/SOURCES/ \
@@ -119,4 +119,4 @@ runs:
       with:
         github_token: ${{ inputs.token }}
         publish_dir: rpm-repo/
-        destination_dir: ${{ inputs.repository-sub-directory || "rpm" }}
+        destination_dir: ${{ inputs.repository-sub-directory || 'rpm' }}
