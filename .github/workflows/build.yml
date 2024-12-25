@@ -51,7 +51,7 @@ jobs:
           fetch-tags: true
 
       - name: Build RPM
-        uses: ./.github/actions/build-rpm
+        uses: ./.github/actions/rpm-build
         with:
           package-name: smee
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
