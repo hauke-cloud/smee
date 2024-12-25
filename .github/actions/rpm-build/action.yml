@@ -45,7 +45,7 @@ runs:
       shell: bash
       run: |
         echo "%_signature gpg" >> ~/.rpmmacros
-        echo "%_gpg_name {{ inputs.gpg-name || 'hauke.cloud' }}" >> ~/.rpmmacros
+        echo "%_gpg_name ${{ inputs.gpg-name || 'hauke.cloud' }}" >> ~/.rpmmacros
         echo "%_gpg_path ~/.gnupg" >> ~/.rpmmacros
         echo "%__gpg /usr/bin/gpg" >> ~/.rpmmacros
 
@@ -65,15 +65,15 @@ runs:
         mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 
         echo "Copy source files"
-        mkdir ~/rpmbuild/SOURCES/{{ inputs.package-name }}-${PACKAGE_VERSION}
-        cp {{ inputs.source-directory || "src" }}/* ~/rpmbuild/SOURCES/{{ inputs.package-name }}-${PACKAGE_VERSION}/
+        mkdir ~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}
+        cp ${{ inputs.source-directory || "src" }}/* ~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}/
 
         echo "Copy spec file"
-        cp {{ inputs.spec-directory || "src/package/rpm" }}/*.spec ~/rpmbuild/SPECS/
+        cp ${{ inputs.spec-directory || "src/package/rpm" }}/*.spec ~/rpmbuild/SPECS/
 
         echo "Creates source archive"
         cd ~/rpmbuild/SOURCES/ \
-        && tar -czvf ~/rpmbuild/SOURCES/{{ inputs.package-name }}-${PACKAGE_VERSION}.tar.gz * \
+        && tar -czvf ~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}.tar.gz * \
         && cd ~
 
         echo "Build RPM package"
@@ -119,4 +119,4 @@ runs:
       with:
         github_token: ${{ inputs.token }}
         publish_dir: rpm-repo/
-        destination_dir: { { inputs.repository-sub-directory || "rpm" } }
+        destination_dir: ${{ inputs.repository-sub-directory || "rpm" }}
