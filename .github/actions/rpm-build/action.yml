@@ -59,7 +59,7 @@ runs:
       id: rpm
       run: |
         # Get PACKAGE_VERSION
-        PACKAGE_VERSION=$(cat *.spec | grep -Eo '^Version:.+' | rev | cut -d' ' -f1 | rev)
+        PACKAGE_VERSION=$(cat ${{ inputs.spec-directory || 'src/package/rpm' }}/*.spec | grep -Eo '^Version:.+' | rev | cut -d' ' -f1 | rev)
 
         echo "Create RPM directories"
         mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
