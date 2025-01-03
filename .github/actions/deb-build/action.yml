@@ -59,7 +59,7 @@ runs:
         package_root: ${{ inputs.package-root }}
         maintainer: ${{ inputs.maintainer }}
         version: ${{ inputs.version }}
-        arch: ${{ inputs.arch || '.amd64' }}
+        arch: ${{ inputs.arch || 'amd64' }}
         depends: ${{ inputs.depends || '' }}
         desc: ${{ inputs.desc }}
         homepage: ${{ inputs.homepage }}
