@@ -1,0 +1,79 @@
+name: Build and deploy DEB package/repository
+description: Builds the latest DEB package and deploys it within a repository to github pages
+inputs:
+  package-name:
+    description: Name of the package
+    required: true
+  package-root:
+    description: Path to directory containing the future package content
+    required: true
+  package-build-dir:
+    description: Path to directory created during build
+  maintainer:
+    description: Maintainer of the package
+    required: true
+  version:
+    description: Version of the package
+    required: true
+  arch:
+    description: Supported arch of this package
+  depends:
+    description: List of package dependencies
+  desc:
+    description: Description of the package
+    required: true
+  homepage:
+    description: URL of homepage belonging to package
+    required: true
+  token:
+    description: Token used to authenticate against Github API for deploying github pages
+    required: true
+  repository-sub-directory:
+    description: In which sub directory of the github pages branch should the repository be deployed to
+runs:
+  using: composite
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-tags: true
+
+    - name: Create package
+      shell: bash
+      run: |
+        # Create build dir
+        mkdir -p "${PACKAGE_BUILD_DIR}"
+
+        # Copy artifacts
+        cp -R "${{ inputs.package-root }}/*" "${PACKAGE_BUILD_DIR}"
+
+        # Create DEBIAN directory
+        mkdir -p "${PACKAGE_BUILD_DIR}/DEBIAN"
+      env:
+        PACKAGE_BUILD_DIR: ${{ inputs.package-build-dir || '.debpkg' }}
+
+    - name: Build package
+      uses: jiro4989/build-deb-action@v3
+      with:
+        package: ${{ inputs.package-name }}
+        package_root: ${{ inputs.package-root }}
+        maintainer: ${{ inputs.maintainer }}
+        version: ${{ github.ref }} # refs/tags/v*.*.*
+        arch: ${{ inputs.arch || '.amd64' }}
+        depends: ${{ inputs.depends || '' }}
+        desc: ${{ inputs.desc }}
+        homepage: ${{ inputs.homepage }}
+
+    - name: Checkout gh-pages branch
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: gh-pages
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ inputs.token }}
+        publish_dir: ${{ inputs.package-root || '.deppkg' }}
+        destination_dir: ${{ inputs.repository-sub-directory || 'deb' }}
+        keep_files: true

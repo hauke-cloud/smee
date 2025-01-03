@@ -6,40 +6,27 @@ on:
       - main
 
 jobs:
-  #   build-deb:
-  #     runs-on: ubuntu-latest
-  #
-  #     steps:
-  #       - name: Checkout code
-  #         uses: actions/checkout@v4
-  #         with:
-  #           fetch-tags: true
-  #
-  #       - name: Build Debian package
-  #         uses: dawidd6/action-debian-package@v1
-  #         with:
-  #           source_directory: src
-  #
-  #       - uses: jrandiny/apt-repo-action@v2.0.1
-  #         with:
-  #           github_token: ${{ secrets.GITHUB_TOKEN }}
-  #           arch: |
-  #             amd64
-  #             i386
-  #           version: |
-  #             bionic
-  #             trusty
-  #           file: my_program_bionic.deb
-  #           file_target_version: bionic
-  #           public_key: ${{ secrets.GPG_PUBLIC_KEY }}
-  #           private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-  #
-  #       - name: Deploy to GitHub Pages
-  #         uses: peaceiris/actions-gh-pages@v4
-  #         with:
-  #           github_token: ${{ secrets.GITHUB_TOKEN }}
-  #           publish_dir: apt-repo/
-  #           destination_dir: apt
+  build-deb:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - name: Build RPM
+        uses: ./.github/actions/deb-build
+        with:
+          package-name: smee
+          package-root: src
+          maintainer: ${{ github.repository_owner }}
+          version: "0.0.1"
+          desc: ${{ vars.README_DESCRIPTION }}
+          homepage: ${{ github.server_url }}/${{ github.repository }}
+          # gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          # gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   build-rpm:
     runs-on: ubuntu-latest
