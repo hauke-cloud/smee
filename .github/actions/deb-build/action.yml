@@ -105,6 +105,6 @@ runs:
         repo_supported_version: ${{ inputs.repository-distros }}
         private_key: ${{ inputs.gpg-private-key }}
         key_passphrase: ${{ inputs.gpg-private-key-passphrase || '' }}
-        repo_directory: ${{ inputs.repository-sub-directory || 'deb' }}
         git_push_branch: ${{ inputs.git_push_branch || 'gh-pages' }}
-        update_directory: smee/gh-pages/deb_updates
+        repo_directory: ${{ inputs.repository-sub-directory || 'deb' }}
+        update_directory: deb_updates
