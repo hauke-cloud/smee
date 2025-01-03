@@ -60,7 +60,7 @@ runs:
         maintainer: ${{ inputs.maintainer }}
         version: ${{ inputs.version }}
         arch: ${{ inputs.arch || 'amd64' }}
-        depends: ${{ inputs.depends || '' }}
+        depends: ${{ inputs.depends || 'none' }}
         desc: ${{ inputs.desc }}
         homepage: ${{ inputs.homepage }}
 
