@@ -18,6 +18,9 @@ Smee provides easy to spin up working environments by using open container techn
 
 %install
 mkdir -p %{buildroot}/usr/bin
+pwd
+ls ../
+ls ~
 cp -a src/usr/bin/smee %{buildroot}/usr/bin/
 
 %files
