@@ -24,7 +24,7 @@ jobs:
           version: "0.0.1"
           desc: ${{ vars.README_DESCRIPTION }}
           homepage: ${{ github.server_url }}/${{ github.repository }}
-          private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
   build-rpm:

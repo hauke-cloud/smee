@@ -35,8 +35,10 @@ inputs:
     required: true
   git_push_branch:
     description: Branch to push repository to
-  private-key:
+  gpg-private-key:
     description: Private key used to sign repository
+  gpg-private-key-passphrase:
+    description: Passphrases used to unlock private key
 runs:
   using: composite
   steps:
@@ -85,8 +87,8 @@ runs:
         repo_supported_version: ${{ inputs.repository-distros }}
         file: my_program_bionic.deb
         file_target_version: bionic
-        private_key: ${{ secrets.PRIVATE }}
-        key_passphrase: ${{ secrets.SECRET }}
+        private_key: ${{ inputs.gpg-private-key }}
+        key_passphrase: ${{ inputs.gpg-private-key-passphrase || '' }}
         repo_directory: ${{ inputs.repository-sub-directory || 'deb' }}
         git_push_branch: ${{ inputs.git_push_branch || 'gh-pages' }}
         update_directory: ${{ inputs.package-build-dir || '.debpkg' }}
