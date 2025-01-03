@@ -65,7 +65,7 @@ runs:
       uses: jiro4989/build-deb-action@v3
       with:
         package: ${{ inputs.package-name }}
-        package_root: ${{ inputs.package-root }}
+        package_root: ${{ inputs.package-build-dir || '.debpkg' }}
         maintainer: ${{ inputs.maintainer }}
         version: ${{ inputs.version }}
         arch: ${{ inputs.arch || 'amd64' }}
