@@ -35,6 +35,8 @@ inputs:
     required: true
   git_push_branch:
     description: Branch to push repository to
+  private-key:
+    description: Private key used to sign repository
 runs:
   using: composite
   steps:
