@@ -30,6 +30,11 @@ inputs:
     required: true
   repository-sub-directory:
     description: In which sub directory of the github pages branch should the repository be deployed to
+  repository-distros:
+    description: OS version supported by repository"
+    required: true
+  git_push_branch:
+    description: Branch to push repository to
 runs:
   using: composite
   steps:
@@ -70,10 +75,16 @@ runs:
         ref: gh-pages
         path: gh-pages
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
+    - name: Create repository
+      uses: arkane-systems/apt-repo-update@v1.1
       with:
         github_token: ${{ inputs.token }}
-        publish_dir: ${{ inputs.package-root || '.deppkg' }}
-        destination_dir: ${{ inputs.repository-sub-directory || 'deb' }}
-        keep_files: true
+        repo_suuported_arch: ${{ inputs.arch || 'amd64' }}
+        repo_supported_version: ${{ inputs.repository-distros }}
+        file: my_program_bionic.deb
+        file_target_version: bionic
+        private_key: ${{ secrets.PRIVATE }}
+        key_passphrase: ${{ secrets.SECRET }}
+        repo_directory: ${{ inputs.repository-sub-directory || 'deb' }}
+        git_push_branch: ${{ inputs.git_push_branch || 'gh-pages' }}
+        update_directory: ${{ inputs.package-build-dir || '.debpkg' }}
