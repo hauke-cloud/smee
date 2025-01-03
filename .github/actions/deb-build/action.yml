@@ -79,9 +79,15 @@ runs:
         ref: gh-pages
         path: gh-pages
 
+    - name: Debug
+      shell: bash
+      run: |
+        ls -R .
+
     - name: Create repository
       uses: arkane-systems/apt-repo-update@v1.1
       with:
+        debug: true
         github_token: ${{ inputs.token }}
         repo_suuported_arch: ${{ inputs.arch || 'amd64' }}
         repo_supported_version: ${{ inputs.repository-distros }}
