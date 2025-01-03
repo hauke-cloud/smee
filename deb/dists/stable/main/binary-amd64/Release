@@ -1,0 +1,6 @@
+Archive: stable
+Component: main
+Origin: https://github.com/hauke-cloud/smee
+Label: smee
+Architecture: amd64
+Description: Smee provides easy to spin up working environments by using open container technologies.
