@@ -91,4 +91,4 @@ runs:
         key_passphrase: ${{ inputs.gpg-private-key-passphrase || '' }}
         repo_directory: ${{ inputs.repository-sub-directory || 'deb' }}
         git_push_branch: ${{ inputs.git_push_branch || 'gh-pages' }}
-        update_directory: ${{ inputs.package-build-dir || '.debpkg' }}
+        update_directory: .
