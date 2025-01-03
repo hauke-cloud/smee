@@ -62,6 +62,7 @@ runs:
         PACKAGE_BUILD_DIR: ${{ inputs.package-build-dir || '.debpkg' }}
 
     - name: Build package
+      id: build_deb
       uses: jiro4989/build-deb-action@v3
       with:
         package: ${{ inputs.package-name }}
@@ -79,10 +80,11 @@ runs:
         ref: gh-pages
         path: gh-pages
 
-    - name: Debug
+    - name: Ensure updates directory and copy artifact
       shell: bash
       run: |
-        ls -R .
+        mkdir -p gh-pages/deb_updates
+        cp ${{ steps.build_deb.outputs.file_name }} gh-pages/deb_updates
 
     - name: Create repository
       uses: arkane-systems/apt-repo-update@v1.1
@@ -91,10 +93,8 @@ runs:
         github_token: ${{ inputs.token }}
         repo_suuported_arch: ${{ inputs.arch || 'amd64' }}
         repo_supported_version: ${{ inputs.repository-distros }}
-        file: my_program_bionic.deb
-        file_target_version: bionic
         private_key: ${{ inputs.gpg-private-key }}
         key_passphrase: ${{ inputs.gpg-private-key-passphrase || '' }}
         repo_directory: ${{ inputs.repository-sub-directory || 'deb' }}
         git_push_branch: ${{ inputs.git_push_branch || 'gh-pages' }}
-        update_directory: .
+        update_directory: deb_updates
