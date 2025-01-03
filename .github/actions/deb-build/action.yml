@@ -45,7 +45,7 @@ runs:
         mkdir -p "${PACKAGE_BUILD_DIR}"
 
         # Copy artifacts
-        cp -R "${{ inputs.package-root }}/*" "${PACKAGE_BUILD_DIR}"
+        cp -R ${{ inputs.package-root }}/* "${PACKAGE_BUILD_DIR}"
 
         # Create DEBIAN directory
         mkdir -p "${PACKAGE_BUILD_DIR}/DEBIAN"
