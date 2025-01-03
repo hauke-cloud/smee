@@ -82,9 +82,19 @@ runs:
 
     - name: Ensure updates directory and copy artifact
       shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
       run: |
         mkdir -p gh-pages/deb_updates
         cp ${{ steps.build_deb.outputs.file_name }} gh-pages/deb_updates
+
+        # Commit artifact to updates directory
+        cd gh-pages
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "Added ${{ steps.build_deb.outputs.file_name }} to deb repository updates directory"
+        git push origin HEAD:gh-pages
 
     - name: Create repository
       uses: arkane-systems/apt-repo-update@v1.1
