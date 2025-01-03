@@ -66,7 +66,7 @@ runs:
 
         echo "Copy source files"
         mkdir ~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}
-        cp ${{ inputs.source-directory || 'src' }}/* ~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}/
+        cp -r ${{ inputs.source-directory || 'src' }}/* ~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}/
 
         echo "Copy spec file"
         cp ${{ inputs.spec-directory || 'deploy/package/rpm' }}/*.spec ~/rpmbuild/SPECS/
