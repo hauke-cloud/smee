@@ -26,6 +26,7 @@ jobs:
           homepage: ${{ github.server_url }}/${{ github.repository }}
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          repository-force-creation: false
 
   build-rpm:
     runs-on: ubuntu-latest

@@ -37,6 +37,10 @@ inputs:
     description: Branch to push repository to
   gpg-private-key:
     description: Private key used to sign repository
+    required: true
+  gpg-public-key:
+    description: Public key matching private key
+    required: true
   gpg-private-key-passphrase:
     description: Passphrases used to unlock private key
 runs:
@@ -74,20 +78,101 @@ runs:
         desc: ${{ inputs.desc }}
         homepage: ${{ inputs.homepage }}
 
+    - name: Install GPG
+      shell: bash
+      run: |
+        sudo apt-get update \
+        && sudo apt-get install -y gnupg
+
+    - name: Import GPG private key
+      shell: bash
+      run: |
+        echo "${{ inputs.gpg-private-key }}" | gpg --import
+        echo "${{ inputs.gpg-public-key }}" | gpg --import
+
+    - name: Export GPG public key
+      shell: bash
+      run: |
+        gpg --export --armor > DEB-GPG-KEY
+
     - name: Checkout gh-pages branch
       uses: actions/checkout@v4
       with:
         ref: gh-pages
         path: gh-pages
 
-    - name: Ensure updates directory and copy artifact
+    - name: Create apt repository if not existing
+      shell: bash
+      env:
+        FORCE_REPOSITORY_CREATION: ${{ inputs.repository-force-creation }}
+      run: |
+        # Install dependencies
+        sudo apt-get install -y dpkg-dev
+
+        # Set paths
+        REPOSITORY_DIR="gh-pages/${{ inputs.repository-sub-directory }}"
+        POOL_DIR="${REPOSITORY_DIR}/pool/main"
+        PACKAGE_METADATA_DIR="${REPOSITORY_DIR}/dists/stable/binary-${{ inputs.arch }}"
+        RELEASE_FILE="${REPOSITORY_DIR}/dists/stable/Release"
+        INRELEASE_FILE="${REPOSITORY_DIR}/dists/stable/InRelease"
+
+        # Ensure directories
+        if [[ ( ! -d "${REPOSITORY_DIR}" ) || ( "${{ inputs.repository-force-creation }}" == "true" ) ]]; then
+          echo "Creating apt repository"
+          mkdir -p "${POOL_DIR}"
+          mkdir -p "${PACKAGE_METADATA_DIR}"
+        fi
+
+        # Copy package file
+        cp "${{ steps.build_deb.outputs.file_name }}" "${POOL_DIR}/"
+
+        # Create metadata
+        dpkg-scanpackages --arch "${{ inputs.arch }}" "${POOL_DIR}" > "${PACKAGE_METADATA_DIR}/Packages"
+
+        # Compress Packages file
+        cat "${PACKAGE_METADATA_DIR}/Packages" | gzip -9 > "${PACKAGE_METADATA_DIR}/Packages.gz"
+
+        # Generate DEBIAN control file
+        do_hash() {
+            HASH_NAME="${1}"
+            HASH_CMD="${2}"
+            echo "${HASH_NAME}:"
+            for f in $(find "${REPOSITORY_DIR}" -type f); do
+                f=$(echo "${f}" | cut -c3-)
+                if [ "${f}" = "Release" ]; then
+                    continue
+                fi
+                echo " $(${HASH_CMD} ${f}  | cut -d' ' -f1) $(wc -c ${f})"
+            done
+        }
+
+        cat << EOF
+        Origin: ${{ inputs.package-name }}
+        Label: ${{ inputs.package-name }}
+        Suite: stable
+        Codename: stable
+        Version: 1.0
+        Architectures: ${{ inputs.arch }}
+        Components: main
+        Description: ${{ inputs.description }}
+        Date: $(date -Ru)
+        EOF
+        do_hash "MD5Sum" "md5sum"
+        do_hash "SHA1" "sha1sum"
+        do_hash "SHA256" "sha256sum"
+        ' > "${RELEASE_FILE}"
+
+        # Sign Release file
+        cat "${RELEASE_FILE}" | gpg -abs > "${RELEASE_FILE}.gpg"
+
+        # Create InRelease file
+        cat "${RELEASE_FILE}" | gpg -abs --clearsign > "${INRELEASE_FILE}"
+
+    - name: Commit repository
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
       run: |
-        mkdir -p gh-pages/deb_updates
-        cp ${{ steps.build_deb.outputs.file_name }} gh-pages/deb_updates
-
         # Commit artifact to updates directory
         cd gh-pages
         git config user.name "github-actions[bot]"
@@ -95,16 +180,3 @@ runs:
         git add .
         git commit -m "Added ${{ steps.build_deb.outputs.file_name }} to deb repository updates directory"
         git push origin HEAD:gh-pages
-
-    - name: Create repository
-      uses: arkane-systems/apt-repo-update@v1.1
-      with:
-        debug: true
-        github_token: ${{ inputs.token }}
-        repo_suuported_arch: ${{ inputs.arch || 'amd64' }}
-        repo_supported_version: ${{ inputs.repository-distros }}
-        private_key: ${{ inputs.gpg-private-key }}
-        key_passphrase: ${{ inputs.gpg-private-key-passphrase || '' }}
-        git_push_branch: ${{ inputs.git_push_branch || 'gh-pages' }}
-        repo_directory: ${{ inputs.repository-sub-directory || 'deb' }}
-        update_directory: deb_updates
