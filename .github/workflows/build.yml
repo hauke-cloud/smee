@@ -28,6 +28,7 @@ jobs:
           gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
           token: ${{ secrets.GITHUB_TOKEN }}
           repository-force-creation: false
+          repository-sub-directory: apt
 
   build-rpm:
     runs-on: ubuntu-latest
