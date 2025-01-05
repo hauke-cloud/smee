@@ -1,4 +1,4 @@
-name: Build and Deploy RPM
+name: Build and Deploy
 
 on:
   push:
@@ -25,6 +25,7 @@ jobs:
           desc: ${{ vars.README_DESCRIPTION }}
           homepage: ${{ github.server_url }}/${{ github.repository }}
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
           token: ${{ secrets.GITHUB_TOKEN }}
           repository-force-creation: false
 
