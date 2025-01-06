@@ -6,10 +6,10 @@ Version: 1.0
 Architectures: 
 Components: main
 Description: 
-Date: Mon, 06 Jan 2025 00:09:33 +0000
+Date: Mon, 06 Jan 2025 00:17:19 +0000
 MD5Sum:
- b0cbc8091fab331b5c21c9a2fc901527 2752 smee_0.0.1_amd64.deb
+ 8490d8f44c73a267103bcbb6c66db6e4 2750 smee_0.0.1_amd64.deb
 SHA1:
- aa04f435cfceaa70ef56422d09d013ea16f7e3eb 2752 smee_0.0.1_amd64.deb
+ 521fd8f512cf5fb1a292bd277bcade76c075aad7 2750 smee_0.0.1_amd64.deb
 SHA256:
- 573b358ce8c573e17fea6a02579441dd9823e7109c5abe629a9e35f4ca6b7d73 2752 smee_0.0.1_amd64.deb
+ 7719843cf78a6c744bb0481ed172f468faa9f4d5acf8e80a8965ed91b49a7d79 2750 smee_0.0.1_amd64.deb
