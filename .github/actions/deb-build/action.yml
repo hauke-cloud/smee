@@ -173,6 +173,11 @@ runs:
         echo "Create InRelease file"
         cat "${RELEASE_FILE}" | gpg -abs --clearsign > "${INRELEASE_FILE}"
 
+    - name: Add public GPG key
+      shell: bash
+      run: |
+        echo "${{ inputs.gpg-public-key }} > gh-pages/hauke-cloud.asc"
+
     - name: Commit repository
       shell: bash
       env:
