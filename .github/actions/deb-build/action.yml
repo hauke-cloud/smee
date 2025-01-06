@@ -147,7 +147,7 @@ runs:
             sum=$(${3} "${file}" | awk '{print $1}')
             length=$(wc -c "${file}" | awk '{print $1}')
             filename=$(echo "${file}" | sed "s,${1}/,,")
-            if [[ "${filename}" =~ "InRelease|Release|Release\.gpg" ]]; then
+            if [[ "${filename}" =~ InRelease|Release|Release\.gpg ]]; then
               continue
             else
               echo " ${sum} ${length} ${filename}"
