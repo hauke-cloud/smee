@@ -161,7 +161,7 @@ runs:
 
         # Generate hashes
         echo "Generating hashes"
-        do_hash "${POOL_DIR}" MD5Sum" "md5sum" >> "${RELEASE_FILE}"
+        do_hash "${POOL_DIR}" "MD5Sum" "md5sum" >> "${RELEASE_FILE}"
         do_hash "${POOL_DIR}" "SHA1" "sha1sum" >> "${RELEASE_FILE}"
         do_hash "${POOL_DIR}" "SHA256" "sha256sum" >> "${RELEASE_FILE}"
 
