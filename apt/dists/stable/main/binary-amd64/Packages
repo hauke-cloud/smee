@@ -5,9 +5,9 @@ Maintainer: hauke-cloud
 Installed-Size: 18
 Filename: apt/pool/main/smee_0.0.1_amd64.deb
 Size: 2752
-MD5sum: 1a5adc2e364aa6c88cccedfa63e8a6b1
-SHA1: 9703fb500825f1e1d32575eb5c7f8ded872cb549
-SHA256: 418c7996637b75203198cbd0190604a2a5b985d3770c9d00acafb04a0a7ac1ed
+MD5sum: 35c380527f81b6ee64225ec8c9b231c2
+SHA1: eecac459b85865a9c299303c83f00d60d5fee971
+SHA256: 11b9b44dcb4fe4651604b1fefbfdef794243d49e1bc746ce498da11ee8519a9e
 Homepage: https://github.com/hauke-cloud/smee
 Description: Smee provides easy to spin up working environments by using open container technologies.
  .
