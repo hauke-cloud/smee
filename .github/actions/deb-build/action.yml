@@ -176,7 +176,7 @@ runs:
     - name: Add public GPG key
       shell: bash
       run: |
-        echo "${{ inputs.gpg-public-key }} > gh-pages/hauke-cloud.asc"
+        echo "${{ inputs.gpg-public-key }}" > gh-pages/hauke-cloud.asc
 
     - name: Commit repository
       shell: bash
