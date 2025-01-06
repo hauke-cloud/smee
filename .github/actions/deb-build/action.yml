@@ -171,8 +171,11 @@ runs:
 
         # Generate hashes
         echo "Generating hashes"
+        echo "Generating MD5Sum"
         do_hash "${DIST_DIR}" "MD5Sum" "md5sum" >> "${RELEASE_FILE}"
+        echo "Generating SHA1"
         do_hash "${DIST_DIR}" "SHA1" "sha1sum" >> "${RELEASE_FILE}"
+        echo "Generating SHA256"
         do_hash "${DIST_DIR}" "SHA256" "sha256sum" >> "${RELEASE_FILE}"
 
         # Sign Release file
