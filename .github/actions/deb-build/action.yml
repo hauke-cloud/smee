@@ -144,12 +144,12 @@ runs:
         do_hash() {
           echo "${2}:"
           for file in $(find ${1} -type f); do
-            if [[ "${file}" =~ "^.*/(InRelease|Release|Release\.gpg)$" ]]; then
+            sum=$(${3} "${file}" | awk '{print $1}')
+            length=$(wc -c "${file}" | awk '{print $1}')
+            filename=$(echo "${file}" | sed "s,${1}/,,")
+            if [[ "${filename}" =~ "InRelease|Release|Release\.gpg" ]]; then
               continue
             else
-              sum=$(${3} "${file}" | awk '{print $1}')
-              length=$(wc -c "${file}" | awk '{print $1}')
-              filename=$(echo "${file}" | sed "s,${1}/,,")
               echo " ${sum} ${length} ${filename}"
             fi
           done
