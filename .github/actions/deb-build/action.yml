@@ -112,7 +112,7 @@ runs:
         # Set paths
         REPOSITORY_DIR="gh-pages/${{ inputs.repository-sub-directory }}"
         POOL_DIR="${REPOSITORY_DIR}/pool/main"
-        PACKAGE_METADATA_DIR="${REPOSITORY_DIR}/dists/stable/binary-${{ inputs.arch }}"
+        PACKAGE_METADATA_DIR="${REPOSITORY_DIR}/dists/stable/binary-${{ inputs.arch || 'amd64' }}"
         RELEASE_FILE="${REPOSITORY_DIR}/dists/stable/Release"
         INRELEASE_FILE="${REPOSITORY_DIR}/dists/stable/InRelease"
 
@@ -129,7 +129,7 @@ runs:
 
         # Create metadata
         echo "Create metadata"
-        dpkg-scanpackages --arch "${{ inputs.arch }}" "${POOL_DIR}" > "${PACKAGE_METADATA_DIR}/Packages"
+        dpkg-scanpackages --arch "${{ inputs.arch || 'amd64' }}" "${POOL_DIR}" > "${PACKAGE_METADATA_DIR}/Packages"
 
         # Compress Packages file
         echo "Compress Packages file"
@@ -153,7 +153,7 @@ runs:
         Suite: stable
         Codename: stable
         Version: 1.0
-        Architectures: ${{ inputs.arch }}
+        Architectures: ${{ inputs.arch || 'amd64' }}
         Components: main
         Description: ${{ inputs.description }}
         Date: $(date -Ru)
