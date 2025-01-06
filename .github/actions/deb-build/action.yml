@@ -117,10 +117,13 @@ runs:
         INRELEASE_FILE="${REPOSITORY_DIR}/dists/stable/InRelease"
 
         # Ensure directories
+        echo "Checking apt directory"
         if [[ ( ! -d "${REPOSITORY_DIR}" ) || ( "${{ inputs.repository-force-creation }}" == "true" ) ]]; then
           echo "Creating apt repository"
           mkdir -p "${POOL_DIR}"
           mkdir -p "${PACKAGE_METADATA_DIR}"
+        else
+          echo "Apt directory existing and force creation disabled. Skipping."
         fi
 
         # Copy package file
