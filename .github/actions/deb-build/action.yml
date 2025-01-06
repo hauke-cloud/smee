@@ -144,10 +144,14 @@ runs:
         do_hash() {
           echo "${2}:"
           for file in $(find ${1} -type f); do
-            sum=$(${3} "${file}" | awk '{print $1}')
-            length=$(wc -c "${file}" | awk '{print $1}')
-            filename=$(echo "${file}" | sed "s,${1}/,,")
-            echo " ${sum} ${length} ${filename}"
+            if [[ "${file}" =~ "InRelease|Release|Release.gpg" ]]; then
+              continue
+            else
+              sum=$(${3} "${file}" | awk '{print $1}')
+              length=$(wc -c "${file}" | awk '{print $1}')
+              filename=$(echo "${file}" | sed "s,${1}/,,")
+              echo " ${sum} ${length} ${filename}"
+            fi
           done
         }
 
@@ -166,9 +170,9 @@ runs:
 
         # Generate hashes
         echo "Generating hashes"
-        do_hash "${POOL_DIR}" "MD5Sum" "md5sum" >> "${RELEASE_FILE}"
-        do_hash "${POOL_DIR}" "SHA1" "sha1sum" >> "${RELEASE_FILE}"
-        do_hash "${POOL_DIR}" "SHA256" "sha256sum" >> "${RELEASE_FILE}"
+        do_hash "${DIST_DIR}" "MD5Sum" "md5sum" >> "${RELEASE_FILE}"
+        do_hash "${DIST_DIR}" "SHA1" "sha1sum" >> "${RELEASE_FILE}"
+        do_hash "${DIST_DIR}" "SHA256" "sha256sum" >> "${RELEASE_FILE}"
 
         # Sign Release file
         echo "Sign Release file"
