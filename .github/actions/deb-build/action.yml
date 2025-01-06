@@ -134,19 +134,16 @@ runs:
 
         # Generate DEBIAN control file
         do_hash() {
-            HASH_NAME="${1}"
-            HASH_CMD="${2}"
-            echo "${HASH_NAME}:"
-            for f in $(find "${REPOSITORY_DIR}" -type f); do
-                f=$(echo "${f}" | cut -c3-)
-                if [ "${f}" = "Release" ]; then
-                    continue
-                fi
-                echo " $(${HASH_CMD} ${f}  | cut -d' ' -f1) $(wc -c ${f})"
-            done
+          echo "${2}:"
+          for file in $(find ${1} -type f); do
+            sum=$(${3} "${file}" | awk '{print $1}')
+            length=$(wc -c "${file}" | awk '{print $1}')
+            filename=$(echo "${file}" | sed "s,${1}/,,")
+            echo " ${sum} ${length} ${filename}"
+          done
         }
 
-        cat << EOF
+        cat >"${RELEASE_FILE}" <<EOF
         Origin: ${{ inputs.package-name }}
         Label: ${{ inputs.package-name }}
         Suite: stable
@@ -157,10 +154,11 @@ runs:
         Description: ${{ inputs.description }}
         Date: $(date -Ru)
         EOF
-        do_hash "MD5Sum" "md5sum"
-        do_hash "SHA1" "sha1sum"
-        do_hash "SHA256" "sha256sum"
-        ' > "${RELEASE_FILE}"
+
+        # Generate hashes
+        do_hash "${POOL_DIR}" MD5Sum" "md5sum" >> "${RELEASE_FILE}"
+        do_hash "${POOL_DIR}" "SHA1" "sha1sum" >> "${RELEASE_FILE}"
+        do_hash "${POOL_DIR}" "SHA256" "sha256sum" >> "${RELEASE_FILE}"
 
         # Sign Release file
         cat "${RELEASE_FILE}" | gpg -abs > "${RELEASE_FILE}.gpg"
