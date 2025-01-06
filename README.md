@@ -52,12 +52,12 @@ First you need to create a repo file:
 cat >/etc/yum.repos.d/smee.repo <<EOF
 [smee]
 name=smee
-baseurl=https://hauke-cloud.github.io/smee
+baseurl=https://hauke-cloud.github.io/smee/rpm
 enabled=1
 repo_gpgcheck=1
 type=rpm
 gpgcheck=1
-gpgkey=https://hauke-cloud.github.io/smee/RPM-GPG-KEY
+gpgkey=https://hauke-cloud.github.io/smee/rpm/RPM-GPG-KEY
 EOF
 ```
 
