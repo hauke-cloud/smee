@@ -66,6 +66,11 @@ Now you can update your dnf cache
 sudo dnf update
 ```
 
+Finally you can install the package
+```bash
+sudo dnf install smee
+```
+
 
 
 ## 📄 License
