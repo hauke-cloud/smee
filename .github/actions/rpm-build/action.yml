@@ -113,10 +113,3 @@ runs:
 
         echo "Sign repository metadata"
         gpg --detach-sign --armor ./rpm-repo/repodata/repomd.xml
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ inputs.token }}
-        publish_dir: rpm-repo/
-        destination_dir: ${{ inputs.repository-sub-directory || 'rpm' }}

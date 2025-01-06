@@ -23,7 +23,7 @@ function errorUsage() {
 }
 
 # check prerequisites
-for cmd in podman; do
+for cmd in sed grep; do
   command -v ${cmd} >/dev/null || {
     echo >&2 "${cmd} must be installed - exiting..."
     exit 1
