@@ -1,0 +1,34 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: smee
+Label: smee
+Suite: stable
+Codename: stable
+Version: 1.0
+Architectures: amd64
+Components: main
+Description: 
+Date: Mon, 06 Jan 2025 15:07:52 +0000
+MD5Sum:
+ 1a5adc2e364aa6c88cccedfa63e8a6b1 2752 smee_0.0.1_amd64.deb
+SHA1:
+ 9703fb500825f1e1d32575eb5c7f8ded872cb549 2752 smee_0.0.1_amd64.deb
+SHA256:
+ 418c7996637b75203198cbd0190604a2a5b985d3770c9d00acafb04a0a7ac1ed 2752 smee_0.0.1_amd64.deb
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEETAvVtZd/TYbU1abaucqhEla/ykYFAmd78cgACgkQucqhEla/
+ykZmbhAAh36xk0s4I6pRr3HUocrLYtlRgvpLvShzo4TIKFCDWFCy6W7ep3zzxJt3
+0wU7K91QLcx3I45TLXEsuDh1KFA2K6aLsnd+1H90O3W8JHon1qQtOwcZxxyLoAw0
+l+Kqoj345Y975sOCJJLe3HgOJXqQ8w0KDCAM9waZLAR2vcOK0Hb2RwUrqzM0KZgv
+xz1xRFTONgODydX4W2ke3LhGVIQm2cbYlV3VQuVWnQbUKLlJxlKynCWsZyQIiYPn
+aJqBAZRMTOSSEFn23RdYXXTlv0wncNFTj/eLhqx2o8XJfuIJtFeSRCGtyCpBWewK
+Rh3QDwOKEyxaRU/sK3U8b0Qp43Ei1RcI/EXqZb3G80vfha3i9FlqH2ssySMAQuJ/
+4+4+ib3mrQZMVEIbgDwb9kPSo5t+cpUp8V33f2bXA5VpmsO6owV2nV7IuBP/ss7G
+thwsS2560AHvM1ljrNBmUXGJaCY5hC6DLapyhmutM1XPKUWV4+crTaObBPWKlxJ1
+ewvmc+fO++e2fQxd5iVCO9uvt4dFDnHaP2cNZcrY1XyRxPU4AsbFQPKBeHF3O3Qw
+RIT1BP6ThqPNlvURSP/NVuxSMHmB9kXvR/Yf77v6CNquVFsPFzFg5L1MekNTt/Mh
+7/CegrvFlcV9qoz02bON/33kpWC5C/p8h8a4hDEuJpW4j5tKR7I=
+=+/OP
+-----END PGP SIGNATURE-----

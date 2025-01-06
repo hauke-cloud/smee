@@ -1,0 +1,18 @@
+Package: smee
+Version: 0.0.1
+Architecture: amd64
+Maintainer: hauke-cloud
+Installed-Size: 18
+Filename: apt/pool/main/smee_0.0.1_amd64.deb
+Size: 2752
+MD5sum: 1a5adc2e364aa6c88cccedfa63e8a6b1
+SHA1: 9703fb500825f1e1d32575eb5c7f8ded872cb549
+SHA256: 418c7996637b75203198cbd0190604a2a5b985d3770c9d00acafb04a0a7ac1ed
+Homepage: https://github.com/hauke-cloud/smee
+Description: Smee provides easy to spin up working environments by using open container technologies.
+ .
+ What you can do with it:
+ - Describe your tooling / working environment in Dockerfiles
+ - Desscribe your mounts, static variables, etc via Smee config file
+ - Spin up a fresh working environment via simple execute ```smee```
+
