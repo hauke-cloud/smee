@@ -124,12 +124,15 @@ runs:
         fi
 
         # Copy package file
+        echo "Copy package file"
         cp "${{ steps.build_deb.outputs.file_name }}" "${POOL_DIR}/"
 
         # Create metadata
+        echo "Create metadata"
         dpkg-scanpackages --arch "${{ inputs.arch }}" "${POOL_DIR}" > "${PACKAGE_METADATA_DIR}/Packages"
 
         # Compress Packages file
+        echo "Compress Packages file"
         cat "${PACKAGE_METADATA_DIR}/Packages" | gzip -9 > "${PACKAGE_METADATA_DIR}/Packages.gz"
 
         # Generate DEBIAN control file
@@ -143,6 +146,7 @@ runs:
           done
         }
 
+        echo "Creating Release file"
         cat >"${RELEASE_FILE}" <<EOF
         Origin: ${{ inputs.package-name }}
         Label: ${{ inputs.package-name }}
@@ -156,14 +160,17 @@ runs:
         EOF
 
         # Generate hashes
+        echo "Generating hashes"
         do_hash "${POOL_DIR}" MD5Sum" "md5sum" >> "${RELEASE_FILE}"
         do_hash "${POOL_DIR}" "SHA1" "sha1sum" >> "${RELEASE_FILE}"
         do_hash "${POOL_DIR}" "SHA256" "sha256sum" >> "${RELEASE_FILE}"
 
         # Sign Release file
+        echo "Sign Release file"
         cat "${RELEASE_FILE}" | gpg -abs > "${RELEASE_FILE}.gpg"
 
         # Create InRelease file
+        echo "Create InRelease file"
         cat "${RELEASE_FILE}" | gpg -abs --clearsign > "${INRELEASE_FILE}"
 
     - name: Commit repository
