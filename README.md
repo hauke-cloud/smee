@@ -2,7 +2,7 @@
 
 <a href="https://hauke.cloud" target="_blank"><img src="https://img.shields.io/badge/home-hauke.cloud-brightgreen" alt="hauke.cloud" style="display: block;" /></a>
 <a href="https://github.com/hauke-cloud" target="_blank"><img src="https://img.shields.io/badge/github-hauke.cloud-blue" alt="hauke.cloud Github Organisation" style="display: block;" /></a>
-<a href="https://github.com/hauke-cloud/readme-management" target="_blank"><img src="https://img.shields.io/badge/template-default-orange" alt="Repository type - default" style="display: block;" /></a>
+<a href="https://github.com/hauke-cloud/readme-management" target="_blank"><img src="https://img.shields.io/badge/template-apt-rpm-orange" alt="Repository type - apt-rpm" style="display: block;" /></a>
 
 
 # Every container ship needs a Smee
@@ -22,32 +22,49 @@ What you can do with it:
 
 
 
-## 🚀 Getting started
-To get started, you need to clone the repository. Follow the steps below:
-
-### 1. Clone the repository
-
-Use the following command to clone the repository:
-
+## 👨🏻‍🔧 Installation
+### Installation via APT
+First you need to download the GPG we are using to sign out repository
 ```bash
-git clone https://github.com/hauke-cloud/smee.git
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://hauke-cloud.github.io/smee/hauke-cloud.asc -o /etc/apt/keyrings/smee.asc
+sudo chmod a+r /etc/apt/keyrings/smee.asc
 ```
 
-### 2. Navigate to the repository directory
-
-Once the repository is cloned, navigate to the directory:
-
+Now you can add the repository to your sources list
 ```bash
-cd smee
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/smee.asc] https://hauke-cloud.github.io/smee/apt main stable" | \
+  sudo tee /etc/apt/sources.list.d/smee.list > /dev/null
 ```
 
-### 3. Check the content
-
+And finally update the apt cache and install the package
 ```bash
-ls -la
+apt-get update
+apt-get install smee
 ```
 
-This will display all the files and directories in the cloned repository.
+### Installation via RPM
+First you need to create a repo file:
+```bash
+cat >/etc/yum.repos.d/smee.repo <<EOF
+[smee]
+name=smee
+baseurl=https://hauke-cloud.github.io/smee
+enabled=1
+repo_gpgcheck=1
+type=rpm
+gpgcheck=1
+gpgkey=https://hauke-cloud.github.io/smee/RPM-GPG-KEY
+EOF
+```
+
+# Now you can update your dnf cache
+```bash
+sudo dnf update
+```
 
 
 
