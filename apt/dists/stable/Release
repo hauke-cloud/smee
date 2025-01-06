@@ -6,22 +6,37 @@ Version: 1.0
 Architectures: amd64
 Components: main
 Description: 
-Date: Mon, 06 Jan 2025 15:23:06 +0000
+Date: Mon, 06 Jan 2025 15:25:49 +0000
 MD5Sum:
- dfe10b7a6581dc97b7a9587245cacbdf 167 Release
- 123733d99bb3c8ac4858bc1619b0cadb 687 main/binary-amd64/Packages
- f09707dd0c77cbabefd7852583e6582e 461 main/binary-amd64/Packages.gz
- 1a24b6ddd617f4d355c684526b4ed4a0 833 Release.gpg
- b58109c7d5ede0f3d73908a3bc1766c5 2097 InRelease
+Found file gh-pages/apt/dists/stable/Release for DEBIAN control
+ 0c451e28e9783435b5e3f2bfab609670 231 Release
+Found file gh-pages/apt/dists/stable/main/binary-amd64/Packages for DEBIAN control
+ f30e54ff0c75647fdb4a709a9fcce1c1 687 main/binary-amd64/Packages
+Found file gh-pages/apt/dists/stable/main/binary-amd64/Packages.gz for DEBIAN control
+ f56dfbc8c25e8acbfd1837afc3c35eb0 462 main/binary-amd64/Packages.gz
+Found file gh-pages/apt/dists/stable/Release.gpg for DEBIAN control
+ e71de5b06dcefb8646cf6efa0fb68a82 833 Release.gpg
+Found file gh-pages/apt/dists/stable/InRelease for DEBIAN control
+ 7bbef86c28a86239638ef28d6d52659e 2097 InRelease
 SHA1:
- c12c4fac9aed02abe4acbd3945e49fffc0260f6b 451 Release
- 0602032b1ae978b9210c81a1d1058a17360dce56 687 main/binary-amd64/Packages
- c129735738243b2a8096dbd1f2a1d39bdfb1bdca 461 main/binary-amd64/Packages.gz
- e1b78296cde44cf1b5bdc124eb9a445f4ac4d78d 833 Release.gpg
- cc36dec605115b419a6da73b8e8c0116d9ac540c 2097 InRelease
+Found file gh-pages/apt/dists/stable/Release for DEBIAN control
+ be796035d55130493b2097f0a2cee71aefe29c90 882 Release
+Found file gh-pages/apt/dists/stable/main/binary-amd64/Packages for DEBIAN control
+ c6eb7a5a2a26c9687f7ec64558f6d9267b99b459 687 main/binary-amd64/Packages
+Found file gh-pages/apt/dists/stable/main/binary-amd64/Packages.gz for DEBIAN control
+ 90e6f2d1d5390ccddcb1e301366f53028726e01e 462 main/binary-amd64/Packages.gz
+Found file gh-pages/apt/dists/stable/Release.gpg for DEBIAN control
+ 17b971bcce5c3c080ec0daefa786814eb0f14e99 833 Release.gpg
+Found file gh-pages/apt/dists/stable/InRelease for DEBIAN control
+ aa20f6ec7905bb61e12f37b72548215b67e511b2 2097 InRelease
 SHA256:
- 46421cbcc0d52420b3fa3fb6f9093af95548611055dd5b869bee4e6f52f9226e 777 Release
- 651b7a4007f18fadb35cbd7d0bfb6f3dbf33e852b8757711d8d51132761693ac 687 main/binary-amd64/Packages
- b3bb1669a058f35c5ad03247bfd7697df2061c3a5a39be4af7da05d3a23d18ea 461 main/binary-amd64/Packages.gz
- 636769cbc7645072b41405aa6a2e6b7719adefd61195470397337fc93ff322a8 833 Release.gpg
- e6a723bbccf2cbc722acf9a2460dbe210b498cb846df6b458e8bd3e8a6b72e16 2097 InRelease
+Found file gh-pages/apt/dists/stable/Release for DEBIAN control
+ b3c98d1eebe3270c33bcfbb55ae5354f17faa7285035cbb22c9fa0320fd3a9c9 1575 Release
+Found file gh-pages/apt/dists/stable/main/binary-amd64/Packages for DEBIAN control
+ 65b63f83556530ea2a94a0a1e88cd65c350ee69cef360d0d8a9174f1165980a6 687 main/binary-amd64/Packages
+Found file gh-pages/apt/dists/stable/main/binary-amd64/Packages.gz for DEBIAN control
+ 92066e140d4060e957e3085a4a8653572fa07f1170e18fa8baf326193005e763 462 main/binary-amd64/Packages.gz
+Found file gh-pages/apt/dists/stable/Release.gpg for DEBIAN control
+ a531da6dd727b8e3c43b031d9f205c7530620089eb8cb49939f49ed9121ae695 833 Release.gpg
+Found file gh-pages/apt/dists/stable/InRelease for DEBIAN control
+ 19d9efd4291bf3e54ecf3bbdb8f596123f400f6dbff5790de053bbda5a094290 2097 InRelease
