@@ -1,0 +1,15 @@
+Origin: smee
+Label: smee
+Suite: stable
+Codename: stable
+Version: 1.0
+Architectures: amd64
+Components: main
+Description: 
+Date: Mon, 06 Jan 2025 15:02:43 +0000
+MD5Sum:
+ 49d515080a9fbfbc79603b5956814d08 2752 smee_0.0.1_amd64.deb
+SHA1:
+ 4dd210f71638b018df7dcd33c529affb2d26a0e2 2752 smee_0.0.1_amd64.deb
+SHA256:
+ 723a84c887b87e228f4f0437d47a53198c57b7ed67972318526af0ef37ce5d48 2752 smee_0.0.1_amd64.deb
