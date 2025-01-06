@@ -144,8 +144,7 @@ runs:
         do_hash() {
           echo "${2}:"
           for file in $(find ${1} -type f); do
-            echo "Found file ${file} for DEBIAN control"
-            if [[ "${file}" =~ "InRelease|Release" ]]; then
+            if [[ "${file}" =~ "^.*/(InRelease|Release|Release\.gpg)$" ]]; then
               continue
             else
               sum=$(${3} "${file}" | awk '{print $1}')
