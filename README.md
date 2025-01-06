@@ -61,7 +61,7 @@ gpgkey=https://hauke-cloud.github.io/smee/RPM-GPG-KEY
 EOF
 ```
 
-# Now you can update your dnf cache
+Now you can update your dnf cache
 ```bash
 sudo dnf update
 ```
