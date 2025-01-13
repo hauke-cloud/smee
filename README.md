@@ -39,14 +39,14 @@ sudo chmod a+r /etc/apt/keyrings/smee.asc
 Now you can add the repository to your sources list
 ```bash
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/smee.asc] https://hauke-cloud.github.io/smee/apt main stable" | \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/smee.asc] https://hauke-cloud.github.io/smee/apt stable main" | \
   sudo tee /etc/apt/sources.list.d/smee.list > /dev/null
 ```
 
 And finally update the apt cache and install the package
 ```bash
-apt-get update
-apt-get install smee
+sudo apt-get update
+sudo apt-get install smee
 ```
 
 ### Installation via RPM
