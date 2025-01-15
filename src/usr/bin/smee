@@ -144,7 +144,7 @@ if [[ "${RUN}" == 1 ]]; then
 
   # Force pull image
   if [[ ${SMEE_PULL} -gt 0 ]]; then
-    ${SMEE_EXECUTABLE} pull "${SMEE_DOCKER_IMAGE}"
+    ${SMEE_EXECUTABLE} pull "${SMEE_IMAGE}"
   fi
 
   # Assemble args
@@ -158,10 +158,10 @@ if [[ "${RUN}" == 1 ]]; then
   for p in ${SMEE_PORTS}; do
     args="${args} -p ${p}:${p}"
   done
-  if [ ${SMEE_MOUNT_PASSWD} -gt 0 ]; then
+  if [ "${SMEE_MOUNT_PASSWD}" -gt 0 ]; then
     args="${args} -v /etc/passwd:/etc/passwd:ro"
   fi
-  if [ ${SMEE_MOUNT_GROUP} -gt 0 ]; then
+  if [ "${SMEE_MOUNT_GROUP}" -gt 0 ]; then
     args="${args} -v /etc/group:/etc/group:ro"
   fi
   for v in ${SMEE_MOUNTS_RO}; do
