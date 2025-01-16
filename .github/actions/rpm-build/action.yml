@@ -82,18 +82,18 @@ runs:
         mkdir -p ~/${{ env.RPM_BUILD_DIR }}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 
         echo "Copy source files"
-        mkdir -p ${{ env.SOURCE_TARGET_DIR }}
-        cp -r ${{ env.SOURCE_DIR }}/* ${{ env.SOURCE_TARGET_DIR }}/
+        mkdir -p ~/${{ env.SOURCE_TARGET_DIR }}
+        cp -r ~/${{ env.SOURCE_DIR }}/* ~/${{ env.SOURCE_TARGET_DIR }}/
 
         echo "List source directories"
-        DIRECTORIES=$(find ${{ env.SOURCE_DIR }} -depth -type d | sed "s|${{ env.SOURCE_DIR }}/||")
+        DIRECTORIES=$(find ~/${{ env.SOURCE_DIR }} -depth -type d | sed "s|${{ env.SOURCE_DIR }}/||")
 
         echo "List source files"
-        FILES=$(find ${{ env.SOURCE_DIR }} -depth -type f | sed "s|${{ env.SOURCE_DIR }}/||")
+        FILES=$(find ~/${{ env.SOURCE_DIR }} -depth -type f | sed "s|${{ env.SOURCE_DIR }}/||")
 
         echo "Create spec file"
         echo "Creating Release file"
-        cat >${{ env.SPEC_FILE }} <<EOF
+        cat >~/${{ env.SPEC_FILE }} <<EOF
         Name:           ${{ env.PACKAGE_NAME }}
         Version:        ${{ inputs.version }}
         Release:        1%{?dist}
@@ -118,12 +118,12 @@ runs:
 
         # Create directories
         for dir in \${DIRECTORIES}; do
-          mkdir -p "%{buildroot}/${dir}"
+          mkdir -p %{buildroot}/\${dir}
         done
 
         # Copy files
         for file in \${FILES}; do
-          cp -a "${file}" "%{buildroot}/${dir}"
+          cp -a \${file}" "%{buildroot}/\${dir}
         done
 
         %files
@@ -132,17 +132,17 @@ runs:
         %changelog
         ${{ inputs.changelog }}
         EOF
-        cat ${{ env.SPEC_FILE }}
+        cat ~/${{ env.SPEC_FILE }}
         ls -la ~/${{ env.RPM_BUILD_DIR }}/SPECS/ \
 
         echo "Creates source archive"
         ls -la ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
         cd ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
-        && tar -czvf ${{ env.ARCHIVE_FILE }} * \
+        && tar -czvf ~/${{ env.ARCHIVE_FILE }} * \
         && cd ~
 
         echo "Build RPM package"
-        rpmbuild -ba ${{ env.SPEC_FILE }}
+        rpmbuild -ba ~/${{ env.SPEC_FILE }}
 
     - name: Checkout gh-pages branch
       uses: actions/checkout@v4
