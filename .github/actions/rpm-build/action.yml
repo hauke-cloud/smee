@@ -76,29 +76,29 @@ runs:
         set -eo pipefail
 
         # Set variables
-        SOURCE_TARGET_DIR="~/${RPM_BUILD_DIR}/SOURCES/${PACKAGE_FULL_NAME}/"
-        ARCHIVE_FILE="~/${RPM_BUILD_DIR}/SOURCES/${PACKAGE_FULL_NAME}.tar.gz"
-        SPEC_FILE="~/${RPM_BUILD_DIR}/SPECS/${PACKAGE_NAME}.spec"
+        SOURCE_TARGET_DIR="~/${{ env.RPM_BUILD_DIR }}/SOURCES/${{ env.PACKAGE_FULL_NAME }}/"
+        ARCHIVE_FILE="~/${{ env.RPM_BUILD_DIR }}/SOURCES/${{ env.PACKAGE_FULL_NAME }}.tar.gz"
+        SPEC_FILE="~/${{ env.RPM_BUILD_DIR }}/SPECS/${{ env.PACKAGE_NAME }}.spec"
 
         echo "Create RPM directories"
-        mkdir -p ~/${RPM_BUILD_DIR}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+        mkdir -p ~/${{ env.RPM_BUILD_DIR }}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
         ls -laR
 
         echo "Copy source files"
         mkdir -p "${SOURCE_TARGET_DIR}"
-        cp -r ${SOURCE_DIR}/* "${SOURCE_TARGET_DIR}/"
+        cp -r ${{ env.SOURCE_DIR }}/* "${SOURCE_TARGET_DIR}/"
 
         echo "List source directories"
-        DIRECTORIES=$(find "${SOURCE_DIR}" -depth -type d | sed "s|${SOURCE_DIR}/||")
+        DIRECTORIES=$(find "${{ env.SOURCE_DIR }}" -depth -type d | sed "s|${{ env.SOURCE_DIR }}/||")
 
         echo "List source files"
-        FILES=$(find "${SOURCE_DIR}" -depth -type f | sed "s|${SOURCE_DIR}/||")
+        FILES=$(find "${{ env.SOURCE_DIR }}" -depth -type f | sed "s|${{ env.SOURCE_DIR }}/||")
 
         echo "Create spec file"
         echo "Creating Release file"
         ls -lar
         cat >"${SPEC_FILE}" <<EOF
-        Name:           ${PACKAGE_NAME}
+        Name:           ${{ env.PACKAGE_NAME }}
         Version:        ${{ inputs.version }}
         Release:        1%{?dist}
         Summary:        ${{ inputs.description }}
@@ -139,7 +139,7 @@ runs:
 
         echo "Creates source archive"
         ls -lar
-        cd ~/${RPM_BUILD_DIR}/SOURCES/ \
+        cd ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
         && tar -czvf "${ARCHIVE_FILE}" * \
         && cd ~
 
