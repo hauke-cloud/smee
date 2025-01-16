@@ -141,7 +141,7 @@ runs:
         done
 
         %files
-        $(echo ${FILES} | sed -E 's|^|/|g')
+        $(echo "${FILES}" | sed -E 's|^|/|g')
 
         %changelog
         * $(date +"%a %b %d %Y") ${{ inputs.changelog_author }} <${{ inputs.changelog_email || 'author@example.org' }}> - ${{ inputs.version || '0.0.0' }}
