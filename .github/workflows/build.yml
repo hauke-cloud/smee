@@ -4,12 +4,45 @@ on:
   push:
     branches:
       - main
+      - feature/*
     tags:
-      - "v*"
+      - "*"
 
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.tag-check.outputs.tag_name }}
+      tag_message: ${{ steps.tag-message-check.outputs.tag_message }}
+
+    steps:
+      - name: Determine tag
+        id: tag-check
+        run: |
+          if [ -n "${{ github.ref_type }}" ] && [ "${{ github.ref_type }}" = "tag" ]; then
+            TAG_NAME=${{ github.ref_name }}
+          else
+            TAG_NAME="0.0.0"
+          fi
+
+          echo "Tag name determined: $TAG_NAME"
+          echo "::set-output name=tag_name::$TAG_NAME"
+
+      - name: Determine tag message or default
+        id: tag-message-check
+        run: |
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            TAG_MESSAGE=$(git for-each-ref refs/tags/${{ github.ref_name }} --format='%(contents)' || echo "No message")
+          else
+            TAG_MESSAGE="Default tag message"
+          fi
+
+          echo "Tag message determined: $TAG_MESSAGE"
+          echo "::set-output name=tag_message::$TAG_MESSAGE"
+
   build-deb:
     runs-on: ubuntu-latest
+    needs: prepare
 
     steps:
       - name: Checkout code
@@ -17,21 +50,13 @@ jobs:
         with:
           fetch-tags: true
 
-      - name: Set version for tag or branch
-        run: |
-          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            echo "VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
-          else
-            echo "VERSION=dev-main" >> $GITHUB_ENV
-          fi
-
       - name: Build DEB
         uses: ./.github/actions/deb-build
         with:
           package-name: smee
           package-root: src
           maintainer: ${{ github.repository_owner }}
-          version: ${{ env.VERSION }}
+          version: ${{ needs.prepare.outputs.tag_name }}
           description: ${{ vars.README_DESCRIPTION }}
           homepage: ${{ github.server_url }}/${{ github.repository }}
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -54,6 +79,7 @@ jobs:
 
   build-rpm:
     runs-on: ubuntu-latest
+    needs: prepare
 
     steps:
       - name: Checkout code
@@ -61,20 +87,14 @@ jobs:
         with:
           fetch-tags: true
 
-      - name: Set version for tag or branch
-        run: |
-          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            echo "VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
-          else
-            echo "VERSION=dev-main" >> $GITHUB_ENV
-          fi
-
       - name: Build RPM
         uses: ./.github/actions/rpm-build
         with:
           package-name: smee
-          description: "test"
-          changelog_message: "test"
+          description: ${{ vars.README_DESCRIPTION }}
+          summary: "Every container ship needs a Smee"
+          version: ${{ needs.prepare.outputs.tag_name }}
+          changelog_message: ${{ needs.prepare.outputs.tag_message }}
           changelog_author: ${{ env.GITHUB_ACTOR }}
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
@@ -87,3 +107,28 @@ jobs:
           github_token: ${{ inputs.token }}
           publish_dir: rpm-repo/
           destination_dir: ${{ inputs.repository-sub-directory || 'rpm' }}
+
+  release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    needs:
+      - build-deb
+      - build-rpm
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body_path: deploy/release/template
+          draft: true
+          prerelease: false
