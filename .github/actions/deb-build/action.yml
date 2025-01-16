@@ -33,6 +33,8 @@ inputs:
   repository-distros:
     description: OS version supported by repository"
     required: true
+  repository-force-creation:
+    description: Force re-creation of repository
   git_push_branch:
     description: Branch to push repository to
   gpg-private-key:
