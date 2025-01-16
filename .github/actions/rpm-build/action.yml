@@ -93,6 +93,7 @@ runs:
 
         echo "Create spec file"
         echo "Creating Release file"
+        ls -lar
         cat >"${SPEC_FILE}" <<EOF
         Name:           ${PACKAGE_NAME}
         Version:        ${{ inputs.version }}
