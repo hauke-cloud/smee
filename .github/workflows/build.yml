@@ -10,6 +10,23 @@ on:
       - "*"
 
 jobs:
+  validate-tag:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Validate tag target branch
+        run: |
+          TAG_COMMIT=$(git rev-parse $GITHUB_SHA)
+          BRANCH=$(git branch -r --contains $TAG_COMMIT | grep origin/main || true)
+
+          if [[ -z "$BRANCH" ]]; then
+            echo "Error: Tags can only be created on commits from the 'main' branch."
+            exit 1
+          fi
+
   prepare:
     runs-on: ubuntu-latest
     outputs:
@@ -114,7 +131,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: target/
-          destination_dir: /
+          destination_dir: .
           keep_files: true
 
   release:
