@@ -147,13 +147,8 @@ runs:
         * $(date +"%a %b %d %Y") ${{ inputs.changelog_author }} <${{ inputs.changelog_email || 'author@example.org' }}> - ${{ inputs.version || '0.0.0' }}
         - ${{ inputs.changelog_message }}
         EOF
-        cat ~/${{ env.SPEC_FILE }}
-        ls -la ~/${{ env.RPM_BUILD_DIR }}/SPECS/
-
-        ls -arR ~/${{ env.RPM_BUILD_DIR }}/
 
         echo "Creates source archive"
-        ls -la ~/${{ env.RPM_BUILD_DIR }}/SOURCES/
         cd ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
         && tar -czvf ~/${{ env.ARCHIVE_FILE }} * \
         && cd ~
