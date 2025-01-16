@@ -82,6 +82,7 @@ runs:
 
         echo "Create RPM directories"
         mkdir -p ~/${RPM_BUILD_DIR}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+        ls -laR
 
         echo "Copy source files"
         mkdir -p "${SOURCE_TARGET_DIR}"
