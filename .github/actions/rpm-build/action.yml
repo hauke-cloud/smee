@@ -137,7 +137,7 @@ runs:
 
         # Copy files
         for file in \${FILES}; do
-          cp -a \${file} %{buildroot}/\${dir}
+          cp -a /\${file} %{buildroot}/\${dir}
         done
 
         %files
