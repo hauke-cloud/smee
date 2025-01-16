@@ -105,12 +105,20 @@ runs:
         sudo apt-get install -y dpkg-dev
 
         # Set paths
-        REPOSITORY_DIR="gh-pages/${{ inputs.repository-sub-directory }}"
+        REPOSITORY_DIR="target/${{ inputs.repository-sub-directory }}"
         POOL_DIR="${REPOSITORY_DIR}/pool/main"
         DIST_DIR="${REPOSITORY_DIR}/dists/stable"
         PACKAGE_METADATA_DIR="${DIST_DIR}/main/binary-${{ inputs.arch || 'amd64' }}"
         RELEASE_FILE="${DIST_DIR}/Release"
         INRELEASE_FILE="${DIST_DIR}/InRelease"
+
+        # Check for old apt directory and copy it
+        if [[ -d "gh-pages/${{ inputs.repository-sub-directory }}" ]]; then
+          echo "Found old directory in gh-pages. Copying..."
+          cp -a "gh-pages/${{ inputs.repository-sub-directory }}" ${REPOSITORY_DIR}
+        else
+          echo "No old directory found. Creating new one."
+        fi
 
         # Ensure directories
         echo "Checking apt directory"
@@ -184,4 +192,10 @@ runs:
     - name: Add public GPG key
       shell: bash
       run: |
-        echo "${{ inputs.gpg-public-key }}" > gh-pages/hauke-cloud.asc
+        echo "${{ inputs.gpg-public-key }}" > target/${{ inputs.repository-sub-directory }}/hauke-cloud.asc
+
+    - name: Cache builds directory
+      uses: actions/cache@v3
+      with:
+        path: target/${{ inputs.repository-sub-directory }}
+        key: apt-${{ github.sha }}

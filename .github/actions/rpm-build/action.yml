@@ -165,27 +165,33 @@ runs:
       shell: bash
       run: |
         echo "Create repository directory"
-        mkdir -p ./rpm-repo/x86_64
+        mkdir -p ./target/${{ inputs.repository-sub-directory || 'rpm' }}/x86_64
 
         echo "Copy RPM-GPG-KEY file to repository directory"
-        cp RPM-GPG-KEY ./rpm-repo/
+        cp RPM-GPG-KEY ./target/${{ inputs.repository-sub-directory || 'rpm' }}/
 
         echo "Copy new rpm to repository directory"
         ls -la ~/rpmbuild/RPMS/x86_64/*
-        cp ~/rpmbuild/RPMS/x86_64/*.rpm ./rpm-repo/x86_64/
+        cp ~/rpmbuild/RPMS/x86_64/*.rpm ./target/${{ inputs.repository-sub-directory || 'rpm' }}/x86_64/
 
         echo "Copy old rpms to repository directory"
-        if [[ -d gh-pages/x86_64 ]]; then
-          cp -r gh-pages/rpm/x86_64/* ./rpm-repo/x86_64/
+        if [[ -d gh-pages/${{ inputs.repository-sub-directory || 'rpm' }}/x86_64 ]]; then
+          cp -r gh-pages/${{ inputs.repository-sub-directory || 'rpm' }}/x86_64/* ./target/${{ inputs.repository-sub-directory || 'rpm' }}/x86_64/
         fi
 
         echo "Sign rpms"
-        for rpm in ./rpm-repo/x86_64/*.rpm; do
+        for rpm in ./target/${{ inputs.repository-sub-directory || 'rpm' }}/x86_64/*.rpm; do
           sudo -E rpm --addsign ${rpm}
         done
 
         echo "Create repository metadata"
-        createrepo_c ./rpm-repo
+        createrepo_c ./target/${{ inputs.repository-sub-directory || 'rpm' }}
 
         echo "Sign repository metadata"
-        gpg --detach-sign --armor ./rpm-repo/repodata/repomd.xml
+        gpg --detach-sign --armor ./target/${{ inputs.repository-sub-directory || 'rpm' }}/repodata/repomd.xml
+
+    - name: Cache rpm directory
+      uses: actions/cache@v3
+      with:
+        path: target/${{ inputs.repository-sub-directory || 'rpm' }}
+        key: rpm-${{ github.sha }}
