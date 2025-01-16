@@ -64,14 +64,6 @@ jobs:
           repository-force-creation: false
           repository-sub-directory: apt
 
-      - name: Deploy to GitHub Pages
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: github-pages/apt
-          destination_dir: apt
-
   build-rpm:
     runs-on: ubuntu-latest
     needs: prepare
@@ -93,15 +85,7 @@ jobs:
           gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy to GitHub Pages
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: rpm-repo/
-          destination_dir: rpm
-
-  release:
+  upload:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     needs:
@@ -109,10 +93,39 @@ jobs:
       - build-rpm
 
     steps:
+      - name: Restore apt target directory
+        uses: actions/cache@v3
+        with:
+          path: target/apt
+          key: apt-${{ github.sha }}
+          restore-keys: |
+            apt-
+
+      - name: Restore rpm target directory
+        uses: actions/cache@v3
+        with:
+          path: target/rpm
+          key: rpm-${{ github.sha }}
+          restore-keys: |
+            rpm-
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: target/
+          destination_dir: /
+          keep_files: true
+
+  release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    needs:
+      - upload
+
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-tags: true
 
       - name: Create Release
         id: create_release
