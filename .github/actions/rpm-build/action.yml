@@ -138,7 +138,7 @@ runs:
         cat "${SPEC_FILE}"
 
         echo "Creates source archive"
-        ls -la \
+        ls -la ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
         cd ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
         && tar -czvf "${ARCHIVE_FILE}" * \
         && cd ~
