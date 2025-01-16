@@ -32,7 +32,7 @@ jobs:
           package-root: src
           maintainer: ${{ github.repository_owner }}
           version: ${{ env.VERSION }}
-          desc: ${{ vars.README_DESCRIPTION }}
+          description: ${{ vars.README_DESCRIPTION }}
           homepage: ${{ github.server_url }}/${{ github.repository }}
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
@@ -73,6 +73,8 @@ jobs:
         uses: ./.github/actions/rpm-build
         with:
           package-name: smee
+          description: ${{ vars.README_DESCRIPTION }}
+          changelog: "test"
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
           token: ${{ secrets.GITHUB_TOKEN }}

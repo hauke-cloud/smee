@@ -95,7 +95,7 @@ runs:
         echo "Creating Release file"
         cat >~/${{ env.SPEC_FILE }} <<EOF
         Name:           ${{ env.PACKAGE_NAME }}
-        Version:        ${{ inputs.version }}
+        Version:        ${{ inputs.version || '0.0.1-dev' }}
         Release:        1%{?dist}
         Summary:        ${{ inputs.description }}
 
@@ -113,8 +113,12 @@ runs:
         %build
 
         %install
-        DIRECTORIES="${DIRECTORIES}"
-        FILES="${FILES}"
+        read -r -d '' DIRECTORIES <<-"EOT"
+        ${DIRECTORIES}
+        EOT
+        read -r -d '' FILES <<-"EOT"
+        ${FILES}
+        EOT
 
         # Create directories
         for dir in \${DIRECTORIES}; do
