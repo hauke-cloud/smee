@@ -113,12 +113,13 @@ runs:
         %build
 
         %install
-        read -r -d '' DIRECTORIES <<-"EOT"
+        DIRECTORIES="
         ${DIRECTORIES}
-        EOT
-        read -r -d '' FILES <<-"EOT"
+        "
+
+        FILES="
         ${FILES}
-        EOT
+        "
 
         # Create directories
         for dir in \${DIRECTORIES}; do

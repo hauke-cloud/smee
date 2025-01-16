@@ -73,7 +73,7 @@ jobs:
         uses: ./.github/actions/rpm-build
         with:
           package-name: smee
-          description: ${{ vars.README_DESCRIPTION }}
+          description: "test"
           changelog: "test"
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
