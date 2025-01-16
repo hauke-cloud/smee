@@ -74,7 +74,8 @@ jobs:
         with:
           package-name: smee
           description: "test"
-          changelog: "test"
+          changelog_message: "test"
+          changelog_author: ${{ env.GITHUB_ACTOR }}
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
           token: ${{ secrets.GITHUB_TOKEN }}

@@ -7,9 +7,18 @@ inputs:
   version:
     description: Version of the package
     required: false
-  desc:
+  description:
     description: Description of the package
     required: true
+  changelog_message:
+    description: Message for changelog
+    required: true
+  changelog_author:
+    description: Author of changelog
+    required: true
+  changelog_email:
+    description: E-Mail of changelog
+    required: false
   license:
     description: License under which this package will be published
     required: false
@@ -135,7 +144,8 @@ runs:
         ${FILES}
 
         %changelog
-        ${{ inputs.changelog }}
+        * $(date +"%a %b %d %Y") ${{ inputs.changelog_author }} <${{ inputs.changelog_email || 'author@example.org' }}> - ${{ inputs.version}}
+        - ${{ inputs.changelog_message }}
         EOF
         cat ~/${{ env.SPEC_FILE }}
         ls -la ~/${{ env.RPM_BUILD_DIR }}/SPECS/
