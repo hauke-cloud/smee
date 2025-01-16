@@ -46,6 +46,11 @@ jobs:
     needs: prepare
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
       - name: Build DEB
         uses: ./.github/actions/deb-build
         with:
@@ -78,6 +83,11 @@ jobs:
     needs: prepare
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
       - name: Build RPM
         uses: ./.github/actions/rpm-build
         with:
