@@ -144,7 +144,7 @@ runs:
         ${FILES}
 
         %changelog
-        * $(date +"%a %b %d %Y") ${{ inputs.changelog_author }} <${{ inputs.changelog_email || 'author@example.org' }}> - ${{ inputs.version}}
+        * $(date +"%a %b %d %Y") ${{ inputs.changelog_author }} <${{ inputs.changelog_email || 'author@example.org' }}> - ${{ inputs.version || '0.0.0' }}
         - ${{ inputs.changelog_message }}
         EOF
         cat ~/${{ env.SPEC_FILE }}
