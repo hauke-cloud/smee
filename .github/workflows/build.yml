@@ -11,6 +11,9 @@ on:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.tag-check.outputs.tag_name }}
+      tag_message: ${{ steps.tag-message-check.outputs.tag_message }}
 
     steps:
       - name: Determine tag
