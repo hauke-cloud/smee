@@ -82,7 +82,7 @@ runs:
         mkdir -p "~/${RPM_BUILD_DIR}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}"
 
         echo "Copy source files"
-        mkdir "${SOURCE_TARGET_DIR}"
+        mkdir -p "${SOURCE_TARGET_DIR}"
         cp -r "${SOURCE_DIR}"/* "${SOURCE_TARGET_DIR}/"
 
         echo "List source directories"
