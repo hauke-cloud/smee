@@ -135,6 +135,7 @@ runs:
         %changelog
         ${{ inputs.changelog }}
         EOF
+        cat "${SPEC_FILE}"
 
         echo "Creates source archive"
         ls -la \
