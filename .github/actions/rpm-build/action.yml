@@ -134,6 +134,7 @@ runs:
         EOF
 
         echo "Creates source archive"
+        ls -lar
         cd ~/${RPM_BUILD_DIR}/SOURCES/ \
         && tar -czvf "${ARCHIVE_FILE}" * \
         && cd ~
