@@ -73,6 +73,8 @@ runs:
         PACKAGE_FULL_NAME: "${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}"
         PACKAGE_VERSION: "${{ inputs.version || '0.0.0-dev' }}"
       run: |
+        set -eo pipefail
+
         # Set variables
         SOURCE_TARGET_DIR="~/${RPM_BUILD_DIR}/SOURCES/${PACKAGE_FULL_NAME}/"
         ARCHIVE_FILE="~/${RPM_BUILD_DIR}/SOURCES/${PACKAGE_FULL_NAME}.tar.gz"
