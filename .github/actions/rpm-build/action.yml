@@ -137,7 +137,7 @@ runs:
         EOF
 
         echo "Creates source archive"
-        ls -lar
+        ls -la \
         cd ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
         && tar -czvf "${ARCHIVE_FILE}" * \
         && cd ~
