@@ -6,7 +6,7 @@ inputs:
     required: true
   version:
     description: Version of the package
-    required: true
+    required: false
   desc:
     description: Description of the package
     required: true
@@ -69,10 +69,8 @@ runs:
       env:
         SOURCE_DIR: "${{ inputs.source-directory || 'src' }}"
         DESTINATION_SOURCE_DIR: "~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}/"
+        PACKAGE_VERSION: "${{ inputs.version || '0.0.0-dev' }}"
       run: |
-        # Get PACKAGE_VERSION
-        PACKAGE_VERSION=$(cat ${{ inputs.spec-directory || 'deploy/package/rpm' }}/*.spec | grep -Eo '^Version:.+' | rev | cut -d' ' -f1 | rev)
-
         echo "Create RPM directories"
         mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 
