@@ -47,6 +47,8 @@ runs:
   steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-tags: true
 
     - name: Install RPM build tools
       shell: bash
