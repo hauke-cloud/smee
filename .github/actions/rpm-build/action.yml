@@ -114,10 +114,10 @@ runs:
 
         %install
         read -r -d '' DIRECTORIES <<-"EOT"
-        "${DIRECTORIES}"
+        ${DIRECTORIES}
         EOT
         read -r -d '' FILES <<-"EOT"
-        "${FILES}"
+        ${FILES}
         EOT
 
         # Create directories
@@ -137,10 +137,10 @@ runs:
         ${{ inputs.changelog }}
         EOF
         cat ~/${{ env.SPEC_FILE }}
-        ls -la ~/${{ env.RPM_BUILD_DIR }}/SPECS/ \
+        ls -la ~/${{ env.RPM_BUILD_DIR }}/SPECS/
 
         echo "Creates source archive"
-        ls -la ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
+        ls -la ~/${{ env.RPM_BUILD_DIR }}/SOURCES/
         cd ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
         && tar -czvf ~/${{ env.ARCHIVE_FILE }} * \
         && cd ~
