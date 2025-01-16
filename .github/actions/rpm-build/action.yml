@@ -95,7 +95,6 @@ runs:
 
         echo "Create spec file"
         echo "Creating Release file"
-        ls -lar ~/rpmbuild
         cat >"${SPEC_FILE}" <<EOF
         Name:           ${{ env.PACKAGE_NAME }}
         Version:        ${{ inputs.version }}
@@ -136,6 +135,7 @@ runs:
         ${{ inputs.changelog }}
         EOF
         cat "${SPEC_FILE}"
+        ls -la ~/${{ env.RPM_BUILD_DIR }}/SPECS/ \
 
         echo "Creates source archive"
         ls -la ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
