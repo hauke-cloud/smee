@@ -114,6 +114,10 @@ runs:
         RELEASE_FILE="${DIST_DIR}/Release"
         INRELEASE_FILE="${DIST_DIR}/InRelease"
 
+        # Create target directory
+        echo "Creating target directory"
+        mkdir -p target/
+
         # Check for old apt directory and copy it
         if [[ -d "gh-pages/${{ inputs.repository-sub-directory }}" ]]; then
           echo "Found old directory in gh-pages. Copying..."
