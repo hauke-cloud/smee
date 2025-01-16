@@ -79,7 +79,7 @@ runs:
         SPEC_FILE="~/${RPM_BUILD_DIR}/SPECS/${PACKAGE_NAME}.spec"
 
         echo "Create RPM directories"
-        mkdir -p "~/${RPM_BUILD_DIR}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}"
+        mkdir -p "~/${RPM_BUILD_DIR}/"{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 
         echo "Copy source files"
         mkdir -p "${SOURCE_TARGET_DIR}"
