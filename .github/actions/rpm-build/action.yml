@@ -69,9 +69,9 @@ runs:
       env:
         RPM_BUILD_DIR: "rpmbuild"
         SOURCE_DIR: "${{ inputs.source-directory || 'src' }}"
-        SOURCE_TARGET_DIR: "${{ inputs.source-directory || 'src' }}/SOURCES/${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}/"
-        ARCHIVE_FILE: "${{ inputs.source-directory || 'src' }}/SOURCES/${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}.tar.gz"
-        SPEC_FILE: "${{ inputs.source-directory || 'src' }}/SPECS/${{ inputs.package-name }}.spec"
+        SOURCE_TARGET_DIR: "rpmbuild/SOURCES/${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}/"
+        ARCHIVE_FILE: "rpmbuild/SOURCES/${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}.tar.gz"
+        SPEC_FILE: "rpmbuild/SPECS/${{ inputs.package-name }}.spec"
         PACKAGE_NAME: "${{ inputs.package-name }}"
         PACKAGE_FULL_NAME: "${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}"
         PACKAGE_VERSION: "${{ inputs.version || '0.0.0-dev' }}"
