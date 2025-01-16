@@ -69,12 +69,12 @@ runs:
       env:
         RPM_BUILD_DIR: "rpmbuild"
         SOURCE_DIR: "${{ inputs.source-directory || 'src' }}"
-        SOURCE_TARGET_DIR: "rpmbuild/SOURCES/${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}/"
-        ARCHIVE_FILE: "rpmbuild/SOURCES/${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}.tar.gz"
+        SOURCE_TARGET_DIR: "rpmbuild/SOURCES/${{ inputs.package-name }}-${{ inputs.version || '0.0.0' }}/"
+        ARCHIVE_FILE: "rpmbuild/SOURCES/${{ inputs.package-name }}-${{ inputs.version || '0.0.0' }}.tar.gz"
         SPEC_FILE: "rpmbuild/SPECS/${{ inputs.package-name }}.spec"
         PACKAGE_NAME: "${{ inputs.package-name }}"
-        PACKAGE_FULL_NAME: "${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}"
-        PACKAGE_VERSION: "${{ inputs.version || '0.0.0-dev' }}"
+        PACKAGE_FULL_NAME: "${{ inputs.package-name }}-${{ inputs.version || '0.0.0' }}"
+        PACKAGE_VERSION: "${{ inputs.version || '0.0.0' }}"
       run: |
         set -eo pipefail
 
@@ -95,7 +95,7 @@ runs:
         echo "Creating Release file"
         cat >~/${{ env.SPEC_FILE }} <<EOF
         Name:           ${{ env.PACKAGE_NAME }}
-        Version:        ${{ inputs.version || '0.0.1-dev' }}
+        Version:        ${{ inputs.version || '0.0.1' }}
         Release:        1%{?dist}
         Summary:        ${{ inputs.description }}
 
