@@ -4,6 +4,15 @@ inputs:
   package-name:
     description: Name of the package
     required: true
+  version:
+    description: Version of the package
+    required: true
+  desc:
+    description: Description of the package
+    required: true
+  license:
+    description: License under which this package will be published
+    required: false
   source-directory:
     description: Relative path to directory containing the future package content
   spec-directory:
@@ -57,6 +66,9 @@ runs:
     - name: Build RPM package
       shell: bash
       id: rpm
+      env:
+        SOURCE_DIR: "${{ inputs.source-directory || 'src' }}"
+        DESTINATION_SOURCE_DIR: "~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}/"
       run: |
         # Get PACKAGE_VERSION
         PACKAGE_VERSION=$(cat ${{ inputs.spec-directory || 'deploy/package/rpm' }}/*.spec | grep -Eo '^Version:.+' | rev | cut -d' ' -f1 | rev)
@@ -65,11 +77,56 @@ runs:
         mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 
         echo "Copy source files"
-        mkdir ~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}
-        cp -r ${{ inputs.source-directory || 'src' }}/* ~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}/
+        mkdir "${DESTINATION_SOURCE_DIR}"
+        cp -r "${SOURCE_DIR}"/* "${DESTINATION_SOURCE_DIR}"
 
-        echo "Copy spec file"
-        cp ${{ inputs.spec-directory || 'deploy/package/rpm' }}/*.spec ~/rpmbuild/SPECS/
+        echo "List source directories"
+        DIRECTORIES=$(find "${SOURCE_DIR}" -depth -type d | sed "s|${SOURCE_DIR}/||")
+
+        echo "List source files"
+        FILES=$(find "${SOURCE_DIR}" -depth -type f | sed "s|${SOURCE_DIR}/||")
+
+        echo "Create spec file"
+        echo "Creating Release file"
+        cat >"~/rpmbuild/SPECS/${{ inputs.package-name}}.spec" <<EOF
+        Name:           ${{ inputs.package-name }}
+        Version:        ${{ inputs.version }}
+        Release:        1%{?dist}
+        Summary:        ${{ inputs.description }}
+
+        License:        ${{ inputs.license || "GPLv3" }}
+        Source0:        %{name}-%{version}.tar.gz
+
+        %global debug_package %{nil}
+
+        %description
+        ${{ inputs.description }}
+
+        %prep
+        %setup -q
+
+        %build
+
+        %install
+        DIRECTORIES="${DIRECTORIES}"
+        FILES="${FILES}"
+
+        # Create directories
+        for dir in \${DIRECTORIES}; do
+          mkdir -p "%{buildroot}/${dir}"
+        done
+
+        # Copy files
+        for file in \${FILES}; do
+          cp -a "${file}" "%{buildroot}/${dir}"
+        done
+
+        %files
+        ${FILES}
+
+        %changelog
+        ${{ inputs.changelog }}
+        EOF
 
         echo "Creates source archive"
         cd ~/rpmbuild/SOURCES/ \

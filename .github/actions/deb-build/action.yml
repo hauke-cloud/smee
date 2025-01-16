@@ -1,5 +1,5 @@
-name: Build and deploy DEB package/repository
-description: Builds the latest DEB package and deploys it within a repository to github pages
+name: Build and deploy DEB package/ APT repository
+description: Builds the latest DEB package and deploys it within a APT repository to github pages
 inputs:
   package-name:
     description: Name of the package
@@ -19,7 +19,7 @@ inputs:
     description: Supported arch of this package
   depends:
     description: List of package dependencies
-  desc:
+  description:
     description: Description of the package
     required: true
   homepage:
@@ -75,7 +75,7 @@ runs:
         version: ${{ inputs.version }}
         arch: ${{ inputs.arch || 'amd64' }}
         depends: ${{ inputs.depends || 'none' }}
-        desc: ${{ inputs.desc }}
+        desc: ${{ inputs.description }}
         homepage: ${{ inputs.homepage }}
 
     - name: Install GPG
