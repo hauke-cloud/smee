@@ -94,7 +94,7 @@ runs:
         Release:        1%{?dist}
         Summary:        ${{ inputs.description }}
 
-        License:        ${{ inputs.license || "GPLv3" }}
+        License:        ${{ inputs.license || 'GPLv3' }}
         Source0:        %{name}-%{version}.tar.gz
 
         %global debug_package %{nil}
