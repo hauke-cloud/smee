@@ -83,13 +83,13 @@ runs:
 
         echo "Copy source files"
         mkdir -p ~/${{ env.SOURCE_TARGET_DIR }}
-        cp -r ~/${{ env.SOURCE_DIR }}/* ~/${{ env.SOURCE_TARGET_DIR }}/
+        cp -r ${{ env.SOURCE_DIR }}/* ~/${{ env.SOURCE_TARGET_DIR }}/
 
         echo "List source directories"
-        DIRECTORIES=$(find ~/${{ env.SOURCE_DIR }} -depth -type d | sed "s|${{ env.SOURCE_DIR }}/||")
+        DIRECTORIES=$(find ${{ env.SOURCE_DIR }} -depth -type d | sed "s|${{ env.SOURCE_DIR }}/||")
 
         echo "List source files"
-        FILES=$(find ~/${{ env.SOURCE_DIR }} -depth -type f | sed "s|${{ env.SOURCE_DIR }}/||")
+        FILES=$(find ${{ env.SOURCE_DIR }} -depth -type f | sed "s|${{ env.SOURCE_DIR }}/||")
 
         echo "Create spec file"
         echo "Creating Release file"
