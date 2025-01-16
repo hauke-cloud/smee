@@ -28,7 +28,7 @@ jobs:
           fi
 
       - name: Pass if its a non-tagged run
-        if: ! startsWith(github.ref, 'refs/tags/')
+        if: "!startsWith(github.ref, 'refs/tags/')"
         run: |
           echo "Info: Non-tagged run. Tag validation successful."
 
