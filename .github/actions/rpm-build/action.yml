@@ -82,8 +82,6 @@ runs:
 
         echo "Create RPM directories"
         mkdir -p ~/${{ env.RPM_BUILD_DIR }}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-        echo "~/${{ env.RPM_BUILD_DIR }}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}"
-        ls -laR ~
 
         echo "Copy source files"
         mkdir -p "${SOURCE_TARGET_DIR}"
@@ -97,7 +95,7 @@ runs:
 
         echo "Create spec file"
         echo "Creating Release file"
-        ls -lar
+        ls -lar ~/rpmbuild
         cat >"${SPEC_FILE}" <<EOF
         Name:           ${{ env.PACKAGE_NAME }}
         Version:        ${{ inputs.version }}
