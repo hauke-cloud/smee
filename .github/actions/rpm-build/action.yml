@@ -68,7 +68,7 @@ runs:
       id: rpm
       env:
         SOURCE_DIR: "${{ inputs.source-directory || 'src' }}"
-        DESTINATION_SOURCE_DIR: "~/rpmbuild/SOURCES/${{ inputs.package-name }}-${PACKAGE_VERSION}/"
+        DESTINATION_SOURCE_DIR: "~/rpmbuild/SOURCES/${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}/"
         PACKAGE_VERSION: "${{ inputs.version || '0.0.0-dev' }}"
       run: |
         echo "Create RPM directories"
