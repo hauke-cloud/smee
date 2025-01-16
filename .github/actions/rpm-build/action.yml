@@ -67,25 +67,23 @@ runs:
       shell: bash
       id: rpm
       env:
-        SOURCE_DIR: "${{ inputs.source-directory || 'src' }}"
         RPM_BUILD_DIR: "rpmbuild"
+        SOURCE_DIR: "${{ inputs.source-directory || 'src' }}"
+        SOURCE_TARGET_DIR: "${{ inputs.source-directory || 'src' }}/SOURCES/${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}/"
+        ARCHIVE_FILE: "${{ inputs.source-directory || 'src' }}/SOURCES/${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}.tar.gz"
+        SPEC_FILE: "${{ inputs.source-directory || 'src' }}/SPECS/${{ inputs.package-name }}.spec"
         PACKAGE_NAME: "${{ inputs.package-name }}"
         PACKAGE_FULL_NAME: "${{ inputs.package-name }}-${{ inputs.version || '0.0.0-dev' }}"
         PACKAGE_VERSION: "${{ inputs.version || '0.0.0-dev' }}"
       run: |
         set -eo pipefail
 
-        # Set variables
-        SOURCE_TARGET_DIR="~/${{ env.RPM_BUILD_DIR }}/SOURCES/${{ env.PACKAGE_FULL_NAME }}/"
-        ARCHIVE_FILE="~/${{ env.RPM_BUILD_DIR }}/SOURCES/${{ env.PACKAGE_FULL_NAME }}.tar.gz"
-        SPEC_FILE="~/${{ env.RPM_BUILD_DIR }}/SPECS/${{ env.PACKAGE_NAME }}.spec"
-
         echo "Create RPM directories"
         mkdir -p ~/${{ env.RPM_BUILD_DIR }}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 
         echo "Copy source files"
-        mkdir -p ${SOURCE_TARGET_DIR}
-        cp -r ${{ env.SOURCE_DIR }}/* ${SOURCE_TARGET_DIR}/
+        mkdir -p ${{ env.SOURCE_TARGET_DIR }}
+        cp -r ${{ env.SOURCE_DIR }}/* ${{ env.SOURCE_TARGET_DIR }}/
 
         echo "List source directories"
         DIRECTORIES=$(find ${{ env.SOURCE_DIR }} -depth -type d | sed "s|${{ env.SOURCE_DIR }}/||")
@@ -95,7 +93,7 @@ runs:
 
         echo "Create spec file"
         echo "Creating Release file"
-        cat >${SPEC_FILE} <<EOF
+        cat >${{ env.SPEC_FILE }} <<EOF
         Name:           ${{ env.PACKAGE_NAME }}
         Version:        ${{ inputs.version }}
         Release:        1%{?dist}
@@ -134,17 +132,17 @@ runs:
         %changelog
         ${{ inputs.changelog }}
         EOF
-        cat ${SPEC_FILE}
+        cat ${{ env.SPEC_FILE }}
         ls -la ~/${{ env.RPM_BUILD_DIR }}/SPECS/ \
 
         echo "Creates source archive"
         ls -la ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
         cd ~/${{ env.RPM_BUILD_DIR }}/SOURCES/ \
-        && tar -czvf ${ARCHIVE_FILE} * \
+        && tar -czvf ${{ env.ARCHIVE_FILE }} * \
         && cd ~
 
         echo "Build RPM package"
-        rpmbuild -ba ${SPEC_FILE}
+        rpmbuild -ba ${{ env.SPEC_FILE }}
 
     - name: Checkout gh-pages branch
       uses: actions/checkout@v4
