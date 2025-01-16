@@ -1,0 +1,59 @@
+name: Release AUR update
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get the last tag
+        id: get_last_tag
+        run: |
+          last_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "Last tag: ${latest_tag}"
+          echo "tag=${latest_tag}" >> $GITHUB_ENV
+
+      - name: Set up SSH and GIT
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AUR_REPO_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
+          git config --add --global core.sshCommand 'ssh -i ~/.ssh/id_rsa'
+
+      - name: Checkout AUR repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.AUR_REPO_URL }}
+          ref: master
+          ssh-key: ~/.ssh/id_rsa
+          ssh-known-hosts: ~/.ssh/known_hosts
+          ssh-user: aur
+          path: aur
+
+      - name: Install tooling
+        run: |
+          sudo apt update \
+          && sudo apt install -y makepkg
+
+      - name: Update version
+        run: |
+          cd aur
+          sed -i "s/^pkgver=.*$/pkgver=${{ env.tag }}/g" PKGBUILD
+          makepkg --printsrcinfo > .SRCINFO
+
+      - name: Push changes
+        run: |
+          cd aur
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Updated AUR to version ${{ env.tag }}"
+          git push origin HEAD:master
