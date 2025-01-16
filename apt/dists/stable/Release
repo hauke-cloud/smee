@@ -5,14 +5,20 @@ Codename: stable
 Version: 1.0
 Architectures: amd64
 Components: main
-Description: 
-Date: Mon, 06 Jan 2025 19:56:12 +0000
+Description: Smee provides easy to spin up working environments by using open container technologies.
+
+What you can do with it:
+- Describe your tooling / working environment in Dockerfiles
+- Desscribe your mounts, static variables, etc via Smee config file
+- Spin up a fresh working environment via simple execute 
+
+Date: Thu, 16 Jan 2025 14:00:16 +0000
 MD5Sum:
- 6fca746af02a341e8152e6c7eefab97a 683 main/binary-amd64/Packages
- 05e9b96a20cf4a2181eaf676e249a09a 457 main/binary-amd64/Packages.gz
+ 660046391ddca6c40f35b03ec2e573a4 683 main/binary-amd64/Packages
+ cf242a409bfa373a8899d9f35a74be1e 459 main/binary-amd64/Packages.gz
 SHA1:
- e036c97146e59d0ffdabf4817083c94ff49f5e8a 683 main/binary-amd64/Packages
- e27955c46f0d8506b3008c638db77b08b36f740d 457 main/binary-amd64/Packages.gz
+ e78fb3b668f0683f1e20bef9233fcf05f93f91c2 683 main/binary-amd64/Packages
+ 1f920b198c4906d39faf0a6051cf1c0750d30cb4 459 main/binary-amd64/Packages.gz
 SHA256:
- bf14b176491525b0761e87d03925a7f546cb317d6003fc6eb28051e55656ebbe 683 main/binary-amd64/Packages
- eea985277cbabd2e32556dcb29224e132214566574c7a04a9e8667dfdd3fae8e 457 main/binary-amd64/Packages.gz
+ b0345bb6a987e2b3a4d575ae25a59808f27b8bcc89fdd23d78547cc1a19fd355 683 main/binary-amd64/Packages
+ e403bb5e929f2d0319139294178d5fb44402a98a043f0b53ef7b8ea06584e1dd 459 main/binary-amd64/Packages.gz

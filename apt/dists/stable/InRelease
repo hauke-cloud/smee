@@ -8,30 +8,36 @@ Codename: stable
 Version: 1.0
 Architectures: amd64
 Components: main
-Description: 
-Date: Mon, 06 Jan 2025 19:56:12 +0000
+Description: Smee provides easy to spin up working environments by using open container technologies.
+
+What you can do with it:
+- - Describe your tooling / working environment in Dockerfiles
+- - Desscribe your mounts, static variables, etc via Smee config file
+- - Spin up a fresh working environment via simple execute 
+
+Date: Thu, 16 Jan 2025 14:00:16 +0000
 MD5Sum:
- 6fca746af02a341e8152e6c7eefab97a 683 main/binary-amd64/Packages
- 05e9b96a20cf4a2181eaf676e249a09a 457 main/binary-amd64/Packages.gz
+ 660046391ddca6c40f35b03ec2e573a4 683 main/binary-amd64/Packages
+ cf242a409bfa373a8899d9f35a74be1e 459 main/binary-amd64/Packages.gz
 SHA1:
- e036c97146e59d0ffdabf4817083c94ff49f5e8a 683 main/binary-amd64/Packages
- e27955c46f0d8506b3008c638db77b08b36f740d 457 main/binary-amd64/Packages.gz
+ e78fb3b668f0683f1e20bef9233fcf05f93f91c2 683 main/binary-amd64/Packages
+ 1f920b198c4906d39faf0a6051cf1c0750d30cb4 459 main/binary-amd64/Packages.gz
 SHA256:
- bf14b176491525b0761e87d03925a7f546cb317d6003fc6eb28051e55656ebbe 683 main/binary-amd64/Packages
- eea985277cbabd2e32556dcb29224e132214566574c7a04a9e8667dfdd3fae8e 457 main/binary-amd64/Packages.gz
+ b0345bb6a987e2b3a4d575ae25a59808f27b8bcc89fdd23d78547cc1a19fd355 683 main/binary-amd64/Packages
+ e403bb5e929f2d0319139294178d5fb44402a98a043f0b53ef7b8ea06584e1dd 459 main/binary-amd64/Packages.gz
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEETAvVtZd/TYbU1abaucqhEla/ykYFAmd8NVwACgkQucqhEla/
-ykYWcg//TB60N4AueGxu8BjDB4lGX33urkW0o1ApZy1Enow0VkahfpgE106myXtl
-LypYUGbUGpbJzsXsGZPJebRPv2/T9MCmcO+weiZaGzgkqwLDJkow6JjOgnVubRPE
-90u4imLOmBLkFr6c9C90BljqmLIZ0MG+9Tw4xH24fQTQOcVfmbOACtRLotFUX+iA
-4vmvVojvmCz6rJfpyE4Fvj3zza5c5ZEt38+5b4/DZgg79rEON/WJiXg5Ihsu3kL8
-sOSpeKkaZfUQsuUJK+tVDN6s04ALYavhukEDV258tl2/9JBxhk/0KxKRZPrz6/Wp
-Guy/bZWkA1WX/MlhxXY80uvzG5C4v3/kFq2j/fThp8mkgBn3FVODCMqTW8XRJVag
-KGv5CBivdMtfxaZ/Ken/fcXgx7ardejWIItlnl2cKUrAHeBzKdKIfSZpDOgBd7F5
-CYB95EKonvRhwbc2D1LIvWVXHkA9cb4YW5BIqz1XCF5RR/QwJfOmJg9H0wVHTZd3
-jVtbva3sRIaRUUfSca3ivdFUPl0FOljirfxUxGuWvBo7l99xTdbyW7I+gfpmE+Ub
-Vf2Q4KcLaicGD69xCNVQw1uKCGd0XwwvJVQ/jwuRnYat9M9kY88Pj1Bflh4OFUmR
-BoDbQaH0DMZfGvAikhLkA8bGWevFalSj1l/xMSUencRTRhLUXoo=
-=8fFb
+iQIzBAEBCgAdFiEETAvVtZd/TYbU1abaucqhEla/ykYFAmeJEPAACgkQucqhEla/
+ykZjMA//fKxv/7MLdWQ7LSs6NmC373mJkFPaWwvGL1DgeuUTATYeVui5bidHpVB5
+JitY067ECxzdu/I2DyWb8YTrm+SmcAYyI1vtLtqMRl7qxS6a2VVbqrTIjkG1EEZs
+fs/wQoa0vgPHc5MN0ykvtQrTHCQNFWbUqiFe5wJGYfIeAhRmKB2/A1j0mel13ZzM
+LHK7noaasOzJHjlVmT06PYwGZlPFB5UVQIGpLce3rM29fdeMN9OMip4xx3vX6Ogo
+2mGNauO/+79qxcH41BpdKHH70TXV9jPD3+xzs5aYRk4+b6ZFwFf1g5KUfU51oW9/
+BNra4eTz80eQKIy6xbtkAFptaAPTgxcXTAyLQuYIS7Y7TORXVyZC9d6j4xe7ZvKT
+H3z99Di+FGvmb1PXEF2IUVSXaDkMaLe/pKa32AF62RCoAG8Q+7NRBJN0BXV5cgsv
+p23tFA9w9LrQCTCPpFuZyYIfxALBnGTFbsFm2YlW2jP7l21d1HLp9DBuZ1No3Cjk
+dL7RePUQjochpddy+5OP6Mqtx6NEWlPXMz7o0ET3nqXsFbp5T31wS4qwbUqFgIom
+TNLVLam9liFpap8YBU+q7RpK3dYT1UFY7ZM3HEBCgFFA06i02uykcloEuU1x8zNc
+fGCXu5DoAiUQBCPrF39mtQc3LpG5Kb/0yg5E2uYsAToG4Lw34VA=
+=uyRh
 -----END PGP SIGNATURE-----
