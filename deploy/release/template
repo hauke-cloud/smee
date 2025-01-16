@@ -1,0 +1,104 @@
+# GitHub Release Installation Instructions
+
+This release includes packages for `apt`, `rpm`, and `aur`. Follow the steps below to install the application for your respective package manager.
+
+---
+
+## Installation for `apt`-based Systems (Debian/Ubuntu)
+
+### Prerequisites
+Ensure you have `curl`, `gnupg` and `ca-certificates` installed:
+```bash
+sudo apt update
+sudo apt install -y curl gnupg ca-certificates
+```
+
+### Steps
+1. Add the GPG key:
+   ```bash
+   sudo install -m 0755 -d /etc/apt/keyrings
+   sudo curl -fsSL https://hauke-cloud.github.io/smee/hauke-cloud.asc -o /etc/apt/keyrings/smee.asc
+   sudo chmod a+r /etc/apt/keyrings/smee.asc
+   ```
+
+2. Add the repository to your system:
+   ```bash
+   echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/smee.asc] https://hauke-cloud.github.io/smee/apt stable main" | \
+    sudo tee /etc/apt/sources.list.d/smee.list > /dev/null
+   ```
+
+3. Update your package list and install the application:
+   ```bash
+   sudo apt-get update
+   sudo apt-get install smee
+   ```
+
+---
+
+## Installation for `rpm`-based Systems (Fedora/RHEL/CentOS)
+
+### Prerequisites
+Ensure you have `curl` installed:
+```bash
+yum install -y curl
+```
+
+### Steps
+1. Add the GPG key:
+   ```bash
+   sudo rpm --import https://hauke-cloud.github.io/smee/rpm/RPM-GPG-KEY
+   ```
+
+2. Add the repository to your system:
+   - For Fedora:
+     ```bash
+     cat >/etc/yum.repos.d/smee.repo <<EOF
+     [smee]
+     name=smee
+     baseurl=https://hauke-cloud.github.io/smee/rpm
+     enabled=1
+     repo_gpgcheck=1
+     type=rpm
+     gpgcheck=1
+     gpgkey=https://hauke-cloud.github.io/smee/rpm/RPM-GPG-KEY
+     EOF
+     ```
+   - For RHEL/CentOS:
+     ```bash
+     cat >/etc/yum.repos.d/smee.repo <<EOF
+     [smee]
+     name=smee
+     baseurl=https://hauke-cloud.github.io/smee/rpm
+     enabled=1
+     gpgcheck=1
+     gpgkey=https://hauke-cloud.github.io/smee/rpm/RPM-GPG-KEY
+     EOF
+     ```
+
+3. Install the application:
+   ```bash
+   sudo dnf update
+   sudo dnf install smee
+   ```
+
+---
+
+## Installation for Arch Linux (`AUR`)
+
+### Prerequisites
+Ensure you have an AUR helper installed (e.g., `yay` or `paru`).
+
+### Steps
+1. Use your AUR helper to install the package:
+   ```bash
+   yay -S smee-git
+   ```
+   Or, for `paru`:
+   ```bash
+   paru -S smee-git
+   ```
+
+---
+
+If you encounter any issues, please open an issue on the [Smee Issues](https://github.com/hauke-cloud/smee/issues).
