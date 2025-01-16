@@ -42,6 +42,8 @@ inputs:
     required: true
   repository-sub-directory:
     description: In which sub directory of the github pages branch should the repository be deployed to
+  repository-force-creation:
+    description: Force re-creation of repository
 runs:
   using: composite
   steps:
