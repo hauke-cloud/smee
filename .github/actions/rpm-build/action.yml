@@ -104,7 +104,7 @@ runs:
         echo "Creating Release file"
         cat >~/${{ env.SPEC_FILE }} <<EOF
         Name:           ${{ env.PACKAGE_NAME }}
-        Version:        ${{ inputs.version || '0.0.1' }}
+        Version:        ${{ inputs.version || '0.0.0' }}
         Release:        1%{?dist}
         Summary:        ${{ inputs.description }}
 
