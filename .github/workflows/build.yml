@@ -43,8 +43,8 @@ jobs:
             TAG_NAME="0.0.0"
           fi
 
-          echo "Tag name determined: $TAG_NAME"
-          echo "::set-output name=tag_name::$TAG_NAME"
+          echo "Tag name determined: ${TAG_NAME}"
+          echo "tag_name=${TAG_NAME}" >> $GITHUB_OUTPUT
 
       - name: Determine tag message or default
         id: tag-message-check
@@ -55,8 +55,8 @@ jobs:
             TAG_MESSAGE="Default tag message"
           fi
 
-          echo "Tag message determined: $TAG_MESSAGE"
-          echo "::set-output name=tag_message::$TAG_MESSAGE"
+          echo "Tag message determined: ${TAG_MESSAGE}"
+          echo "tag_message=${TAG_MESSAGE}" >> $GITHUB_OUTPUT
 
   build-deb:
     runs-on: ubuntu-latest
