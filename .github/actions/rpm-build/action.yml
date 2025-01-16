@@ -10,6 +10,9 @@ inputs:
   description:
     description: Description of the package
     required: true
+  summary:
+    description: Summary of the package
+    required: false
   changelog_message:
     description: Message for changelog
     required: true
@@ -106,7 +109,7 @@ runs:
         Name:           ${{ env.PACKAGE_NAME }}
         Version:        ${{ inputs.version || '0.0.0' }}
         Release:        1%{?dist}
-        Summary:        ${{ inputs.description }}
+        Summary:        ${{ inputs.summary || '' }}
 
         License:        ${{ inputs.license || 'GPLv3' }}
         Source0:        %{name}-%{version}.tar.gz

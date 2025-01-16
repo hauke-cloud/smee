@@ -92,6 +92,7 @@ jobs:
         with:
           package-name: smee
           description: ${{ vars.README_DESCRIPTION }}
+          summary: "Every container ship needs a Smee"
           version: ${{ needs.prepare.outputs.tag_name }}
           changelog_message: ${{ needs.prepare.outputs.tag_message }}
           changelog_author: ${{ env.GITHUB_ACTOR }}
