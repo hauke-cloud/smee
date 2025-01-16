@@ -1,0 +1,24 @@
+Origin: smee
+Label: smee
+Suite: stable
+Codename: stable
+Version: 1.0
+Architectures: amd64
+Components: main
+Description: Smee provides easy to spin up working environments by using open container technologies.
+
+What you can do with it:
+- Describe your tooling / working environment in Dockerfiles
+- Desscribe your mounts, static variables, etc via Smee config file
+- Spin up a fresh working environment via simple execute 
+
+Date: Thu, 16 Jan 2025 22:53:42 +0000
+MD5Sum:
+ c7fc57c42f395dac0905ed4da1dac062 690 main/binary-amd64/Packages
+ d9817e4ea9ccf041311e4335724b5e63 460 main/binary-amd64/Packages.gz
+SHA1:
+ 141d24eb299ecbf44721c4bad724392a26884729 690 main/binary-amd64/Packages
+ 2722ca1696356b432cc99c2764df8a8e56199c95 460 main/binary-amd64/Packages.gz
+SHA256:
+ 2910bb2317e5d6878a554ff7aa1d699e3b341d1cf73f8871887480e1ccd43020 690 main/binary-amd64/Packages
+ 74d3dba338ca72e5f16a26641f14bd07c67a11dec55513449c75caf967d68e25 460 main/binary-amd64/Packages.gz
