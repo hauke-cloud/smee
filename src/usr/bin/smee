@@ -121,12 +121,15 @@ fi
 if [[ "${RUN}" == 1 ]]; then
 
   # Check for configuration file
-  if [[ ! -f "${SMEE_FILE}" ]]; then
+  if [[ ! -f "${SMEE_FILE}.custom" ]]; then
+    echoInfo "Found custom configuration file at ${SMEE_FILE}.custom. Loading it."
+    source "${SMEE_FILE}.custom"
+  elif [[ ! -f "${SMEE_FILE}" ]]; then
+    echoInfo "Found configuration file at ${SMEE_FILE}. Loading it."
+    source "${SMEE_FILE}"
+  else
     echoError "Configuration file does not exist"
   fi
-
-  # Load configuration
-  source "${SMEE_FILE}"
 
   # Check for docker or podman executable
   if command -v docker >/dev/null; then
