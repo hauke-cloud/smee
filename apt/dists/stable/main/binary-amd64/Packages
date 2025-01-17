@@ -3,7 +3,7 @@ Version: 0.0.19
 Architecture: amd64
 Maintainer: hauke-cloud
 Installed-Size: 27
-Filename: target/pool/main/smee_0.0.19_amd64.deb
+Filename: pool/main/smee_0.0.19_amd64.deb
 Size: 2662
 MD5sum: 3c736388b6ff4f7f80f4ec629a6068e0
 SHA1: 4b9898eb43a05bda839db7c2b298cf32f5eb1708
