@@ -32,7 +32,7 @@ First you need to download the GPG we are using to sign out repository
 sudo apt-get update
 sudo apt-get install ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://hauke-cloud.github.io/smee/hauke-cloud.asc -o /etc/apt/keyrings/smee.asc
+sudo curl -fsSL https://hauke-cloud.github.io/smee/apt/hauke-cloud.asc -o /etc/apt/keyrings/smee.asc
 sudo chmod a+r /etc/apt/keyrings/smee.asc
 ```
 
