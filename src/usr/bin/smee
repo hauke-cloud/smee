@@ -177,10 +177,10 @@ if [[ "${RUN}" == 1 ]]; then
     args="${args} -e ${e}=${!e}"
   done
   for e in ${SMEE_ENV_FILE}; do
-    args="${args} --env-file ${!e}"
+    args="${args} --env-file=${e}"
   done
   for e in ${SMEE_ENTRYPOINT}; do
-    args="${args} --entrypoint=${!e}"
+    args="${args} --entrypoint=${e}"
   done
 
   # Execute!
