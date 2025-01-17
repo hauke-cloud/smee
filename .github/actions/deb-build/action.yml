@@ -166,7 +166,7 @@ runs:
         }
 
         echo "Creating Release file"
-        cat >"${RELEASE_FILE}" <<EOF
+        cat >${RELEASE_FILE} <<EOF
         Origin: ${{ inputs.package-name }}
         Label: ${{ inputs.package-name }}
         Suite: stable
@@ -177,6 +177,7 @@ runs:
         Description: ${{ inputs.description }}
         Date: $(date -Ru)
         EOF
+        cat ${RELEASE_FILE}
 
         # Generate hashes
         echo "Generating hashes"
