@@ -12,7 +12,7 @@ What you can do with it:
 - Desscribe your mounts, static variables, etc via Smee config file
 - Spin up a fresh working environment via simple execute 
 
-Date: Thu, 16 Jan 2025 22:53:42 +0000
+Date: Fri, 17 Jan 2025 00:05:22 +0000
 MD5Sum:
  c7fc57c42f395dac0905ed4da1dac062 690 main/binary-amd64/Packages
  d9817e4ea9ccf041311e4335724b5e63 460 main/binary-amd64/Packages.gz
