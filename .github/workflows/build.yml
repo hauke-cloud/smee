@@ -22,6 +22,9 @@ jobs:
           TAG_COMMIT=$(git rev-parse $GITHUB_SHA)
           BRANCH=$(git branch -r --contains $TAG_COMMIT | grep origin/main || true)
 
+          echo "${TAG_COMMIT}"
+          echo "${BRANCH}"
+
           if [[ -z "$BRANCH" ]]; then
             echo "Error: Tags can only be created on commits from the 'main' branch."
             exit 1
