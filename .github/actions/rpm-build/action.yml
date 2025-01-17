@@ -196,4 +196,4 @@ runs:
       uses: actions/cache@v3
       with:
         path: target/${{ inputs.repository-sub-directory || 'rpm' }}
-        key: rpm-${{ github.sha }}
+        key: rpm-${{ github.sha }}-${{ github.run_number }}
