@@ -196,6 +196,11 @@ runs:
         echo "Create InRelease file"
         cat "${RELEASE_FILE}" | gpg -abs --clearsign > "${INRELEASE_FILE}"
 
+        # Logs
+        echo "Debugging"
+        ls -laR "${REPOSITORY_DIR}"
+        du -hs "${REPOSITORY_DIR}"
+
     - name: Add public GPG key
       shell: bash
       run: |
