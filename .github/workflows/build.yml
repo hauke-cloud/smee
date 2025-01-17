@@ -85,7 +85,7 @@ jobs:
           package-root: src
           maintainer: ${{ github.repository_owner }}
           version: ${{ needs.prepare.outputs.tag_name }}
-          description: ${{ vars.README_DESCRIPTION }}
+          description: "Every container ship needs a Smee"
           homepage: ${{ github.server_url }}/${{ github.repository }}
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
