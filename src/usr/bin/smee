@@ -158,9 +158,6 @@ if [[ "${RUN}" == 1 ]]; then
   if [ "${SMEE_TTY}" -gt 0 ]; then
     args="${args} -ti"
   fi
-  if [ "${SMEE_ENTRYPOINT}" -gt 0 ]; then
-    args="${args} --entrypoint ${SMEE_ENTRYPOINT}"
-  fi
   for p in ${SMEE_PORTS}; do
     args="${args} -p ${p}:${p}"
   done
@@ -182,6 +179,9 @@ if [[ "${RUN}" == 1 ]]; then
   for e in ${SMEE_ENV_FILE}; do
     args="${args} --env-file ${!e}"
   done
+  for e in ${SMEE_ENTRYPOINT}; do
+    args="${args} --entrypoint=${!e}"
+  done
 
   # Execute!
   "${SMEE_EXECUTABLE}" run \
@@ -189,7 +189,6 @@ if [[ "${RUN}" == 1 ]]; then
     -u "${SMEE_USER}:${SMEE_GROUP}" \
     -v "${PWD}:${SMEE_WORKDIR}:${SMEE_WORKDIR_MODE}" \
     -w "${SMEE_WORKDIR}" \
-    --entrypoint=/bin/bash \
     ${SMEE_ARGS} \
     "${SMEE_IMAGE}" \
     "${SMEE_COMMAND}" \
