@@ -8,14 +8,8 @@ Codename: stable
 Version: 1.0
 Architectures: amd64
 Components: main
-Description: Smee provides easy to spin up working environments by using open container technologies.
-
-What you can do with it:
-- - Describe your tooling / working environment in Dockerfiles
-- - Desscribe your mounts, static variables, etc via Smee config file
-- - Spin up a fresh working environment via simple execute 
-
-Date: Fri, 17 Jan 2025 00:05:22 +0000
+Description: Every container ship needs a Smee
+Date: Fri, 17 Jan 2025 09:51:18 +0000
 MD5Sum:
  c7fc57c42f395dac0905ed4da1dac062 690 main/binary-amd64/Packages
  d9817e4ea9ccf041311e4335724b5e63 460 main/binary-amd64/Packages.gz
@@ -27,17 +21,17 @@ SHA256:
  74d3dba338ca72e5f16a26641f14bd07c67a11dec55513449c75caf967d68e25 460 main/binary-amd64/Packages.gz
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEETAvVtZd/TYbU1abaucqhEla/ykYFAmeJnsIACgkQucqhEla/
-ykaraQ//X8R0DFdh5/plkGwAcQ8mvgwfaBJ1UZTydJM9Dzcu+5b6uBeDVgeXpdDu
-LU4tNNtx8ECmFxk15N3gQMkB+94/Hio/sCKOd2umLB7jS30j/Org5jRmN2etbkgB
-oEcnTJMgXswhL+nVL0VLzDKzc5K4Bmq+xuR5F4QfK/VttYSRKzmToEZ/Ho2OcEZG
-om1PUEEB7odH7SP5g5j+bptLqXjJzdbKeQGTKVSUUa+O+DwirwP0lrFhXn6+yaPA
-dV7hbRkCr7LTsuPERmApe6rNIPtdMEherRi+rsod8FEzxMciOSP69/A36IzCm7LX
-t98uJUoyi6d5LveNB4YKatexZem0au51LULHnj9oorN4eolJzIA9itPF5V1FatPf
-p67NAvD3Yb5i2UcSlNhfMTmPTe5ouqF/4kmIKRkKt2n0fPX4PVI+5IpyjqM69N38
-9zn/ImdzjUvjPvu0T98YT3M6J2kgK8msKBVseVs4xLcNPPbNmmYV+2UkEwm2ZimD
-Yr66pUAsylTX7F3OdgefJF395pD7ytrn5QpnZPn6JvL62psqH8kmaVDU27ImXNuj
-VJ2RKp+OZK0LQDE6eQjqGvynJg8e/Fn6Z63GQtCZx/BAon00/iaq40CED3Pb/VRl
-/E1tXsu8T3VstoIcqd1U7u459wwAMSVHBfiIYlNI8QSdWKQy2DA=
-=llEn
+iQIzBAEBCgAdFiEETAvVtZd/TYbU1abaucqhEla/ykYFAmeKKBYACgkQucqhEla/
+ykZl2RAAgYSndMGdoqADgNjiocwZ46zI4zbfOPiC7OA0GPMk31JemWwpjr14jbh5
+PIyOSGMSqqdI/9HZ7YWToFOqfWkX582HIin2e7Kbr0Hj9nId7PvoSJRblvW1AkT5
+1vOhkMWqXiW1TRCRrhqoL4vbT7kazsbgiPmT+SkNAUjhs/Rm7LxT9BYN/QOkoj73
+LncqVZ2wbe3xjKylFMEfHvOcYFvuGFXN7ZQB9rMhBUZajbqXYSbDJOP8IgTqaeu8
+StttWINlG4YiwHngFZVTybv26OImxGGPwHhu+2ddN8sem+QbVP5pQ/W/epRR0QHa
+VBaxf9XN7VTVWu91rFXKCcxDoZjmD6ubQDtA8lWfWamYy7N2FmjsBpSC1ONcZanA
+H4sJvsRNGKA48/9f7zJsOUmqVy725gOowpn8pPN23sjyY6MGNX0RcHB/qDlkv5hd
+RBozp1MWd8uaJ7MJ1REybTmhm9NYg4ds+9hIO0XfZ3iHCfvW1PCUzmAfn5FqzYqP
+H+qP7ji7B/QyFixMACLwqWz5PlJ75fTiy+jmDbejodDjzmgL/kqAitfdV6IO3nQU
+bf/d9UzT+0NEFWn/M0/QEknhz7WaTckUoDfX4uS8oUAxSpWq9+MgGdFuAyvPTnXy
+FL8myh10TchmJ6ZxHWtwANEP+6vi3YEn7NnQPRiO7SERr+65vV0=
+=ckLn
 -----END PGP SIGNATURE-----
