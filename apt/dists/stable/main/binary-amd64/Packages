@@ -1,13 +1,13 @@
 Package: smee
-Version: 0.0.27
+Version: 0.0.28
 Architecture: amd64
 Maintainer: hauke-cloud
 Installed-Size: 27
-Filename: pool/main/smee_0.0.27_amd64.deb
-Size: 2768
-MD5sum: faf51d41bd14d3ffd7ad172887177c77
-SHA1: 0abb6b91c09fbfbb95d206deffbccfd5cd0319cb
-SHA256: 7c71fabe5f827ab1affe35b1b0958189af1056fe2e71b2399843206314a95fe5
+Filename: pool/main/smee_0.0.28_amd64.deb
+Size: 2860
+MD5sum: 0b13c95703e458fad31a0531aeb51f34
+SHA1: dfc6bd3b67e91d9f33843970ac0993930ce79122
+SHA256: c5a4b9dd51aaba4be5e54caa4b9af7d2aa0aa411a30dad71348740871aefd2d8
 Homepage: https://github.com/hauke-cloud/smee
 Description: Every container ship needs a Smee
 
