@@ -189,6 +189,9 @@ if [[ "${RUN}" == 1 ]]; then
   for e in ${SMEE_ENTRYPOINT}; do
     args="${args} --entrypoint=${e}"
   done
+  if [[ "${SMEE_EXECUTABLE}" == "podman" ]]; then
+    args="${args} --userns=keep-id"
+  fi
 
   # Execute!
   "${SMEE_EXECUTABLE}" run \
