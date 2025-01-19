@@ -139,13 +139,21 @@ if [[ "${RUN}" == 1 ]]; then
     echoError "No container runtime found"
   fi
 
+  # Check if both build and pull are enabled
+  if [[ ${SMEE_BUILD} -gt 0 && ${SMEE_PULL} -gt 0 ]]; then
+    echoError "Cannot build and pull image at the same time"
+  fi
+
   # Try to build image
   if [[ ${SMEE_BUILD} -gt 0 ]]; then
+    echoInfo "Building image ${SMEE_IMAGE} from ${SMEE_BUILD_PATH}"
+    SMEE_IMAGE="localhost/${SMEE_IMAGE}"
     ${SMEE_EXECUTABLE} build -t "${SMEE_IMAGE}" -f "${SMEE_BUILD_PATH}" .
   fi
 
   # Force pull image
   if [[ ${SMEE_PULL} -gt 0 ]]; then
+    echoInfo "Pulling image ${SMEE_IMAGE}"
     ${SMEE_EXECUTABLE} pull "${SMEE_IMAGE}"
   fi
 
