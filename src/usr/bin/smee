@@ -180,7 +180,10 @@ if [[ "${RUN}" == 1 ]]; then
   for v in ${SMEE_MOUNTS_RW}; do
     args="${args} -v ${v}:${v}:rw"
   done
-  for e in ${SMEE_ENV}; do
+  for e in ${SMEE_ENV_NEW}; do
+    args="${args} -e ${e}"
+  done
+  for e in ${SMEE_ENV_COPY}; do
     args="${args} -e ${e}=${!e}"
   done
   for e in ${SMEE_ENV_FILE}; do
