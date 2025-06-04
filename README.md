@@ -8,13 +8,14 @@
 <a href="https://github.com/hauke-cloud/readme-management" target="_blank"><img src="https://img.shields.io/badge/template-apt.rpm-orange" alt="Repository type - apt-rpm" style="display: block;" /></a>
 
 
-# Every container ship needs a Smee
+# Smee - OCI Tooling Images
 
 
 <img src="https://raw.githubusercontent.com/hauke-cloud/.github/main/resources/img/organisation-logo-small.png" alt="hauke.cloud logo" width="109" height="123" align="right">
 
 
-Smee provides easy to spin up working environments by using open container technologies.
+Every ship needs Smee (even Container ships).
+Smee provides easy to spin up working environments by using OCI technologies.
 
 What you can do with it:
 - Describe your tooling / working environment in Dockerfiles
