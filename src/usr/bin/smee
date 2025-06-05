@@ -116,6 +116,9 @@ if [[ "${INIT}" == 1 ]]; then
   echoInfo "Configuration file created at ${SMEE_FILE}"
 fi
 
+# Create temp env file
+tmp_rcenvfile=$(mktemp "${TMPDIR:-/tmp/}$(basename ${0}).XXXXXXXXXXXX")
+
 # Run Smee with configuration
 if [[ "${RUN}" == 1 ]]; then
 
@@ -180,6 +183,9 @@ if [[ "${RUN}" == 1 ]]; then
   for v in ${SMEE_MOUNTS_RW}; do
     args="${args} -v ${v}:${v}:rw"
   done
+  for v in ${SMEE_MOUNTS_CUSTOM}; do
+    args="${args} -v ${v}"
+  done
   for e in ${SMEE_ENV_NEW}; do
     args="${args} -e ${e}"
   done
@@ -189,10 +195,27 @@ if [[ "${RUN}" == 1 ]]; then
   for e in ${SMEE_ENV_FILE}; do
     args="${args} --env-file=${e}"
   done
+  for e in ${SMEE_ENV_RCFILE}; do
+    env -i bash -c '
+      set -a
+      source "'"${e}"'"
+      env -0
+    ' | tr '\0' '\n' >>"${tmp_rcenvfile}"
+  done
+  if [[ -n "${SMEE_ENV_RCFILE}" ]]; then
+    args="${args} --env-file=${tmp_rcenvfile}"
+  fi
   for e in ${SMEE_ENTRYPOINT}; do
     args="${args} --entrypoint=${e}"
   done
-  if [[ "${SMEE_EXECUTABLE}" == "podman" ]]; then
+  if [[ -n "${SMEE_MAP_UID}" ]] && [[ "${SMEE_EXECUTABLE}" == "podman" ]]; then
+    args="${args} --uidmap=0:0:1"
+    args="${args} --uidmap=${SMEE_MAP_UID}:$(id --user):1"
+  fi
+  if [[ -n "${SMEE_MAP_GID}" ]] && [[ "${SMEE_EXECUTABLE}" == "podman" ]]; then
+    args="${args} --gidmap=0:0:1"
+    args="${args} --gidmap=${SMEE_MAP_GID}:$(id --group):1"
+  elif [[ "${SMEE_EXECUTABLE}" == "podman" ]]; then
     args="${args} --userns=keep-id"
   fi
 
