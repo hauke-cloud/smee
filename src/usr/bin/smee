@@ -204,6 +204,6 @@ if [[ "${RUN}" == 1 ]]; then
     -w "${SMEE_WORKDIR}" \
     ${SMEE_ARGS} \
     "${SMEE_IMAGE}" \
-    "${SMEE_COMMAND}" \
-    "${@}"
+    ${SMEE_COMMAND} \
+    ${@}
 fi
