@@ -198,6 +198,7 @@ if [[ "${RUN}" == 1 ]]; then
   for e in ${SMEE_ENV_RCFILE}; do
     env -i bash -c '
       set -a
+      export PATH="'${PATH}'"
       source "'"${e}"'"
       env -0
     ' | tr '\0' '\n' >>"${tmp_rcenvfile}"
